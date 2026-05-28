@@ -697,9 +697,163 @@ public class Main {
 
     private static void handleRoot(HttpExchange exchange) throws Exception {
         String user = getSessionUser(exchange);
-        if (user == null) { redirect(exchange, "/login"); return; }
-        if ("admin".equals(getRole(user))) { redirect(exchange, "/admin"); return; }
-        redirect(exchange, "/dashboard");
+        if (user != null) {
+            if ("admin".equals(getRole(user))) { redirect(exchange, "/admin"); return; }
+            redirect(exchange, "/dashboard"); return;
+        }
+        sendHtml(exchange, generateLandingPage());
+    }
+
+    private static String generateLandingPage() {
+        return """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eLibrary — Read. Learn. Grow.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#0a0a1a;color:#e0e0f0;overflow-x:hidden}
+
+/* ── Animated background ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:40px 20px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(102,126,234,.15),transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(118,75,162,.12),transparent 60%),radial-gradient(ellipse at 50% 0,rgba(102,126,234,.08),transparent 50%);pointer-events:none}
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.p{position:absolute;width:4px;height:4px;background:rgba(102,126,234,.4);border-radius:50%;animation:float linear infinite}
+.p:nth-child(1){left:10%;top:20%;animation-duration:8s;animation-delay:0s}
+.p:nth-child(2){left:25%;top:60%;animation-duration:11s;animation-delay:1s;width:6px;height:6px}
+.p:nth-child(3){left:45%;top:10%;animation-duration:9s;animation-delay:2s}
+.p:nth-child(4){left:65%;top:70%;animation-duration:12s;animation-delay:.5s;width:3px;height:3px}
+.p:nth-child(5){left:80%;top:30%;animation-duration:10s;animation-delay:3s;width:5px;height:5px}
+.p:nth-child(6){left:90%;top:80%;animation-duration:7s;animation-delay:1.5s}
+.p:nth-child(7){left:50%;top:40%;animation-duration:13s;animation-delay:2.5s;width:3px;height:3px}
+.p:nth-child(8){left:15%;top:85%;animation-duration:9s;animation-delay:.8s;width:5px;height:5px}
+@keyframes float{0%{transform:translateY(0) scale(1);opacity:.4}50%{transform:translateY(-120px) scale(1.5);opacity:.8}100%{transform:translateY(-240px) scale(1);opacity:0}}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,26,.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.05);animation:slideDown .6s ease}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.logo-text{font-size:1.3em;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.5px}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.9em;font-weight:500;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.nav-btn{padding:8px 20px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff!important;font-weight:600!important;transition:transform .3s,box-shadow .3s!important}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35)!important}
+
+/* ── Hero content ── */
+.hero-content{text-align:center;position:relative;z-index:2;animation:fadeUp 1s ease .3s both}
+@keyframes fadeUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(102,126,234,.12);border:1px solid rgba(102,126,234,.2);color:#667eea;font-size:.8em;font-weight:600;margin-bottom:24px;animation:fadeUp 1s ease .5s both;backdrop-filter:blur(4px)}
+.hero h1{font-size:clamp(2.5em,7vw,4.5em);font-weight:900;line-height:1.1;margin-bottom:16px;animation:fadeUp 1s ease .6s both}
+.hero h1 span{background:linear-gradient(135deg,#667eea,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(1em,2.5vw,1.2em);color:rgba(255,255,255,.45);max-width:600px;line-height:1.7;margin:0 auto 36px;animation:fadeUp 1s ease .7s both}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s ease .8s both}
+.btn-primary{padding:14px 36px;border:none;border-radius:12px;font-size:1em;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;transition:transform .3s,box-shadow .3s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(102,126,234,.4)}
+.btn-secondary{padding:14px 36px;border:1px solid rgba(255,255,255,.12);border-radius:12px;font-size:1em;font-weight:600;cursor:pointer;background:rgba(255,255,255,.04);color:rgba(255,255,255,.7);text-decoration:none;transition:all .3s}
+.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);transform:translateY(-3px)}
+
+/* ── Stats ── */
+.stats{display:flex;gap:48px;margin-top:60px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s ease 1s both}
+.stat{text-align:center}
+.stat-num{font-size:2em;font-weight:800;background:linear-gradient(135deg,#667eea,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:rgba(255,255,255,.35);font-size:.85em;margin-top:4px}
+
+/* ── Features ── */
+.features{padding:100px 20px;position:relative}
+.features::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg,transparent,rgba(102,126,234,.3),transparent)}
+.section-title{text-align:center;font-size:clamp(1.8em,4vw,2.5em);font-weight:800;margin-bottom:12px}
+.section-sub{text-align:center;color:rgba(255,255,255,.4);margin-bottom:60px;font-size:1.05em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto;padding:0 20px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:32px 24px;transition:all .4s;cursor:default;animation:fadeUp .8s ease both}
+.card:nth-child(1){animation-delay:.2s}
+.card:nth-child(2){animation-delay:.4s}
+.card:nth-child(3){animation-delay:.6s}
+.card:nth-child(4){animation-delay:.8s}
+.card:nth-child(5){animation-delay:1s}
+.card:nth-child(6){animation-delay:1.2s}
+.card:hover{transform:translateY(-8px);border-color:rgba(102,126,234,.2);box-shadow:0 20px 60px rgba(0,0,0,.3);background:rgba(255,255,255,.06)}
+.card-icon{font-size:2em;margin-bottom:16px;display:block}
+.card h3{font-size:1.15em;font-weight:700;margin-bottom:8px}
+.card p{color:rgba(255,255,255,.4);font-size:.9em;line-height:1.6}
+
+/* ── CTA ── */
+.cta{padding:80px 20px 100px;text-align:center;position:relative}
+.cta::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80%;height:1px;background:linear-gradient(90deg,transparent,rgba(102,126,234,.3),transparent)}
+.cta h2{font-size:clamp(1.6em,4vw,2.2em);font-weight:800;margin-bottom:16px}
+.cta p{color:rgba(255,255,255,.4);margin-bottom:32px}
+.cta .btn-primary{display:inline-block}
+
+/* ── Footer ── */
+footer{padding:30px 20px;text-align:center;color:rgba(255,255,255,.2);font-size:.85em}
+footer a{color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s}
+footer a:hover{color:#667eea}
+
+/* ── Responsive ── */
+@media(max-width:600px){nav{padding:14px 20px}.hero h1{font-size:2em}.stats{gap:24px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo-text">&#128218; eLibrary</span>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="/login" class="nav-btn">Get Started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="particles">
+    <div class="p"></div><div class="p"></div><div class="p"></div>
+    <div class="p"></div><div class="p"></div><div class="p"></div>
+    <div class="p"></div><div class="p"></div>
+  </div>
+  <div class="hero-content">
+    <div class="badge">&#9733; Tanzania Institute of Education</div>
+    <h1>Your Digital<br><span>Library</span> Awaits</h1>
+    <p>Access hundreds of TIE textbooks online — anytime, anywhere. Read Form 1 to Form 6 books for free.</p>
+    <div class="hero-btns">
+      <a href="/login" class="btn-primary">Get Started &#8594;</a>
+      <a href="#features" class="btn-secondary">Learn More</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">160+</div><div class="stat-label">Books</div></div>
+      <div class="stat"><div class="stat-num">1-6</div><div class="stat-label">Forms</div></div>
+      <div class="stat"><div class="stat-num">&#8734;</div><div class="stat-label">Free Access</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <h2 class="section-title">Why eLibrary?</h2>
+  <p class="section-sub">Everything you need in one place</p>
+  <div class="grid">
+    <div class="card"><span class="card-icon">&#128214;</span><h3>All Subjects</h3><p>Mathematics, Science, Languages, Vocational — every TIE subject covered.</p></div>
+    <div class="card"><span class="card-icon">&#128640;</span><h3>Instant Access</h3><p>No downloads. Open any book instantly in your browser and start reading.</p></div>
+    <div class="card"><span class="card-icon">&#128269;</span><h3>Smart Search</h3><p>Filter by subject, form, or ISBN. Find the exact book you need in seconds.</p></div>
+    <div class="card"><span class="card-icon">&#128187;</span><h3>Any Device</h3><p>Works on phone, tablet, or laptop. Read anywhere, anytime.</p></div>
+    <div class="card"><span class="card-icon">&#128221;</span><h3>Flipbook Reader</h3><p>Real page-flipping experience embedded right in your browser.</p></div>
+    <div class="card"><span class="card-icon">&#128109;</span><h3>Track Progress</h3><p>Save your reading history and pick up where you left off.</p></div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Ready to Start Reading?</h2>
+  <p>Join thousands of students using eLibrary today.</p>
+  <a href="/login" class="btn-primary">Get Started &#8594;</a>
+</section>
+
+<footer>
+  &copy; 2026 <a href="https://www.tie.go.tz" target="_blank">Tanzania Institute of Education</a> &mdash; eLibrary System
+</footer>
+
+</body>
+</html>
+""";
     }
 
     // ── Signup ─────────────────────────────────────────────
