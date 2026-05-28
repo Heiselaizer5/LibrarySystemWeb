@@ -8,6 +8,9 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Main {
     private static final List<Book> library = new ArrayList<>();
@@ -23,13 +26,13 @@ public class Main {
         // ── Books ───────────────────────────────────────────
         library.add(Book.load("Advanced Mathematics", "TIE", "T009", "Tie", "A-Level", "Form 5",
             "Advanced mathematics covers calculus, complex numbers, and advanced statistics.<br><br>Chapter 1: Differentiation<br>Chapter 2: Integration<br>Chapter 3: Complex Numbers<br>Chapter 4: Vectors<br>Chapter 5: Probability Distributions"));
-        library.add(Book.load("A River Between", "Ngugi wa Thiong'o", "N001", "Novel", "Secondary", "Form 3",
+        library.add(Book.load("A River Between", "Ngugi wa Thiong'o", "N001", "Novel", "Secondary", "Novel",
             "The river was the soul of the land. It separated the two ridges, Kameno and Makuyu, each holding onto ancient traditions.<br><br>Waiyaki grew up knowing the river was more than water. It was a boundary between two worlds. As he learned the ways of the white man, he dreamed of unity — of building a bridge across the river that divided his people.<br><br>But love and duty pulled him in different directions. Would he betray his heritage or abandon his vision for a new future?"));
-        library.add(Book.load("Weep Not Child", "Ngugi wa Thiong'o", "N002", "Novel", "Secondary", "Form 2",
+        library.add(Book.load("Weep Not Child", "Ngugi wa Thiong'o", "N002", "Novel", "Secondary", "Novel",
             "Njoroge sat under the mugumo tree, the weight of his family's hopes on his young shoulders. He was the first in his family to attend school, and education was their only escape from poverty.<br><br>But the Mau Mau uprising tore through the land like a wildfire. Brother turned against brother, and the soil ran red with blood. Njoroge learned that some battles cannot be won with books alone."));
-        library.add(Book.load("The Lion and the Jewel", "Wole Soyinka", "P001", "Play", "Secondary", "Form 4",
+        library.add(Book.load("The Lion and the Jewel", "Wole Soyinka", "P001", "Play", "Secondary", "Play",
             "The village of Ilujinle wakes to the sound of drums. Baroka, the aging Bale, seeks a new wife — the beautiful Sidi, known as the Jewel. But Lakunle, the young western-educated schoolteacher, also wants Sidi's hand.<br><br>What follows is a battle of tradition versus modernity, wit versus pride, and age versus youth. Who will win the Jewel?<br><br>ACT I: Morning<br>ACT II: Midday<br>ACT III: Evening"));
-        library.add(Book.load("Three Suitors One Husband", "Moliere", "P002", "Play", "Secondary", "Form 1",
+        library.add(Book.load("Three Suitors One Husband", "Moliere", "P002", "Play", "Secondary", "Play",
             "A comedy of errors unfolds when a young woman finds herself pursued by three very different suitors. Her father has chosen one, her mother another, but her heart belongs to a third.<br><br>Through witty dialogue and hilarious situations, this play explores love, family, and the timeless battle between arranged marriages and true love."));
         library.add(Book.load("Oxford English Dictionary", "Oxford Press", "R001", "Reference", "All", "All",
             "The definitive record of the English language. With over 600,000 words, phrases, and definitions, this comprehensive dictionary is an essential reference for students, writers, and language lovers.<br><br>Features:<br>- Complete A-Z coverage<br>- Etymology and word origins<br>- Pronunciation guides<br>- Usage examples<br>- Synonyms and antonyms"));
@@ -584,8 +587,8 @@ public class Main {
         server.createContext("/admin", exchange -> { try { handleAdmin(exchange); } catch (Exception e) { e.printStackTrace(); }});
         server.createContext("/read", exchange -> { try { handleRead(exchange); } catch (Exception e) { e.printStackTrace(); }});
 
-        System.out.println("Server: http://localhost:8080");
-        System.out.println("LAN:    http://" + java.net.InetAddress.getLocalHost().getHostAddress() + ":8080");
+        System.out.println("Server: http://localhost:" + port);
+        System.out.println("LAN:    http://" + java.net.InetAddress.getLocalHost().getHostAddress() + ":" + port);
         server.setExecutor(null);
         server.start();
     }
@@ -863,6 +866,7 @@ footer a:hover{color:#667eea}
             Map<String, String> form = readForm(exchange);
             String username = form.getOrDefault("username", "").trim();
             String password = form.getOrDefault("password", "").trim();
+            String phone = form.getOrDefault("phone", "").trim();
             if (username.isEmpty() || password.isEmpty()) {
                 sendHtml(exchange, generateSignupPage("Fill all fields."));
                 return;
@@ -872,7 +876,7 @@ footer a:hover{color:#667eea}
                     sendHtml(exchange, generateSignupPage("Username already taken."));
                     return;
                 }
-            users.add(new User(username, password, "user"));
+            users.add(new User(username, password, "user", phone));
             saveUsers();
             setSession(exchange, username);
             redirect(exchange, "/dashboard");
@@ -908,8 +912,13 @@ footer a:hover{color:#667eea}
             .footer{margin-top:24px;display:flex;flex-direction:column;gap:10px}
             .footer a{color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}
             .footer a:hover{color:#667eea}
+            .input-group{position:relative}
+            .toggle-pwd{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,255,255,.35);font-size:18px;user-select:none;z-index:2}
+            .toggle-pwd:hover{color:rgba(255,255,255,.6)}
             @media(max-width:480px){.box{padding:35px 24px;border-radius:16px}}
-            </style></head><body>
+            </style>
+            <script>function togglePwd(id,el){var inp=document.getElementById(id);if(inp.type==='password'){inp.type='text';el.innerHTML='&#128064;'}else{inp.type='password';el.innerHTML='&#128065;'}}</script>
+            </head><body>
             <div class="box">
             <span class="logo">&#128218;</span>
             <h2>Create Account</h2>
@@ -917,7 +926,8 @@ footer a:hover{color:#667eea}
             """ + (error != null ? "<div class='err'>" + error + "</div>" : "") + """
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
-            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' placeholder='Password' required></div>
+            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='spwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('spwd',this)">&#128065;</span></div>
+            <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' placeholder='Phone number (optional)'></div>
             <button type='submit' class='btn'>Sign Up</button>
             </form>
             <div class="footer">
@@ -977,18 +987,23 @@ footer a:hover{color:#667eea}
             .footer{margin-top:24px;display:flex;flex-direction:column;gap:10px}
             .footer a{color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}
             .footer a:hover{color:#667eea}
+            .input-group{position:relative}
+            .toggle-pwd{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,255,255,.35);font-size:18px;user-select:none;z-index:2}
+            .toggle-pwd:hover{color:rgba(255,255,255,.6)}
             @media(max-width:480px){.box{padding:35px 24px;border-radius:16px}}
-            </style></head><body>
+            </style>
+            <script>function togglePwd(id,el){var inp=document.getElementById(id);if(inp.type==='password'){inp.type='text';el.innerHTML='&#128064;'}else{inp.type='password';el.innerHTML='&#128065;'}}</script>
+            </head><body>
             <div class="box">
             <span class="logo">&#128218;</span>
-            <h2>Welcome Back</h2>
+            <h2>Welcome to eLibrary</h2>
             <p class="sub">Sign in to your account</p>
             """);
         if (error != null) h.append("<div class='err'>").append(error).append("</div>");
         h.append("""
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
-            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' placeholder='Password' required></div>
+            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='lpwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('lpwd',this)">&#128065;</span></div>
             <button type='submit' class='btn'>Login</button>
             </form>
             <div class="footer">
@@ -1038,42 +1053,58 @@ footer a:hover{color:#667eea}
 
     private static String generateDashboard(String username) {
         long avail = library.size();
-        long borrowed = borrows.size();
 
         StringBuilder h = new StringBuilder();
         h.append("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>");
         h.append("<title>Dashboard &mdash; eLibrary System</title><style>");
+        h.append("@keyframes fadeUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}");
+        h.append("@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}");
+        h.append("@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}");
+        h.append("@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}");
         h.append("*{box-sizing:border-box;margin:0;padding:0}");
-        h.append("body{font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;padding:20px;position:relative}");
+        h.append("body{font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;padding:20px;position:relative;overflow-x:hidden}");
         h.append("body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1600') center/cover no-repeat;filter:brightness(.08) blur(3px);pointer-events:none}");
-        h.append(".container{max-width:1100px;margin:0 auto;position:relative;z-index:1}");
-        h.append(".topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(16,16,36,.8);border:1px solid rgba(255,255,255,.06);border-radius:16px;margin-bottom:28px;backdrop-filter:blur(14px)}");
-        h.append(".topbar .brand{color:#e0e0f0;font-size:1.05em;font-weight:600;letter-spacing:.3px}");
+        h.append(".container{max-width:1100px;margin:0 auto;position:relative;z-index:1;animation:fadeUp .6s ease-out}");
+        h.append(".topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(16,16,36,.8);border:1px solid rgba(255,255,255,.06);border-radius:16px;margin-bottom:28px;backdrop-filter:blur(14px);animation:fadeIn .8s ease-out}");
+        h.append(".topbar .brand{color:#e0e0f0;font-size:1.05em;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:8px}");
         h.append(".topbar .brand span{color:#667eea}");
-        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 20px;border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.88em;transition:all .3s}");
-        h.append(".topbar a:hover{color:#fff;border-color:#667eea;background:rgba(102,126,234,.12)}");
-        h.append("h1{color:#e8e8ff;text-align:center;margin-bottom:4px;font-size:1.9em;font-weight:700;letter-spacing:-.5px}.sub{color:rgba(255,255,255,.35);text-align:center;margin-bottom:28px;font-size:.95em}");
+        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 20px;border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.88em;transition:all .3s;position:relative;overflow:hidden}");
+        h.append(".topbar a::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);opacity:0;transition:opacity .3s;border-radius:10px}");
+        h.append(".topbar a:hover::before{opacity:.15}");
+        h.append(".topbar a:hover{color:#fff;border-color:#667eea;transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,.2)}");
+        h.append("h1{color:#e8e8ff;text-align:center;margin-bottom:4px;font-size:1.9em;font-weight:700;letter-spacing:-.5px;animation:fadeIn .6s ease-out .1s both}.sub{color:rgba(255,255,255,.35);text-align:center;margin-bottom:28px;font-size:.95em;animation:fadeIn .6s ease-out .15s both}");
         h.append(".stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}");
-        h.append(".stat{padding:20px 24px;flex:1;min-width:130px;text-align:center;border-radius:14px;border:1px solid rgba(255,255,255,.06)}");
-        h.append(".stat .n{font-size:2em;font-weight:700;display:block}.stat .l{font-size:.82em;margin-top:5px;opacity:.85;text-transform:uppercase;letter-spacing:.5px}");
-        h.append(".stat.avail{background:rgba(39,174,96,.1);color:#2ecc71;border-color:rgba(39,174,96,.15)}");
-        h.append(".stat.req{background:rgba(243,156,18,.08);color:#f1c40f;border-color:rgba(243,156,18,.12)}");
-        h.append(".stat.bor{background:rgba(231,76,60,.08);color:#e74c3c;border-color:rgba(231,76,60,.12)}");
-        h.append(".stat.tot{background:rgba(255,255,255,.03);color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.06)}");
-        h.append(".card{background:rgba(16,16,36,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px;margin-bottom:24px;box-shadow:0 8px 50px rgba(0,0,0,.3)}");
+        h.append(".stat{padding:20px 24px;flex:1;min-width:130px;text-align:center;border-radius:14px;border:1px solid rgba(255,255,255,.06);transition:all .4s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden}");
+        h.append(".stat::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,var(--glow,transparent) 0%,transparent 70%);opacity:0;transition:opacity .4s}");
+        h.append(".stat:hover::after{opacity:1}");
+        h.append(".stat .n{font-size:2em;font-weight:700;display:block;position:relative;z-index:1}.stat .l{font-size:.82em;margin-top:5px;opacity:.85;text-transform:uppercase;letter-spacing:.5px;position:relative;z-index:1}");
+        h.append(".stat.avail{background:rgba(39,174,96,.1);color:#2ecc71;border-color:rgba(39,174,96,.15);--glow:rgba(39,174,96,.15)}");
+        h.append(".stat.avail:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(39,174,96,.2);border-color:rgba(39,174,96,.3)}");
+        h.append(".stat.req{background:rgba(243,156,18,.08);color:#f1c40f;border-color:rgba(243,156,18,.12);--glow:rgba(243,156,18,.12)}");
+        h.append(".stat.req:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(243,156,18,.2);border-color:rgba(243,156,18,.3)}");
+        h.append(".stat.bor{background:rgba(231,76,60,.08);color:#e74c3c;border-color:rgba(231,76,60,.12);--glow:rgba(231,76,60,.12)}");
+        h.append(".stat.bor:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(231,76,60,.2);border-color:rgba(231,76,60,.3)}");
+        h.append(".stat.tot{background:rgba(39,174,96,.08);color:#2ecc71;border-color:rgba(39,174,96,.12);--glow:rgba(39,174,96,.1)}");
+        h.append(".stat.tot:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(39,174,96,.2);border-color:rgba(39,174,96,.3)}");
+        h.append(".card{background:rgba(16,16,36,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px;margin-bottom:24px;box-shadow:0 8px 50px rgba(0,0,0,.3);transition:all .4s cubic-bezier(.25,.46,.45,.94);animation:fadeUp .6s ease-out .2s both}");
+        h.append(".card:hover{border-color:rgba(255,255,255,.1);box-shadow:0 12px 60px rgba(0,0,0,.4);transform:translateY(-2px)}");
         h.append(".card h2{font-size:1.1em;color:#d0d0f0;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.2px}");
         h.append("table{width:100%;border-collapse:collapse}");
         h.append("th{padding:14px 12px;text-align:left;font-size:.75em;text-transform:uppercase;letter-spacing:.7px;color:rgba(255,255,255,.3);font-weight:700;border-bottom:1px solid rgba(255,255,255,.06)}");
-        h.append("td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.9em;color:rgba(255,255,255,.65);transition:color .2s}");
-        h.append("tr:hover td{color:rgba(255,255,255,.9);background:rgba(255,255,255,.03)}");
+        h.append("td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.9em;color:rgba(255,255,255,.65);transition:all .3s}");
+        h.append("tr{transition:background .2s}");
+        h.append("tr:nth-child(even) td{background:rgba(255,255,255,.015)}");
+        h.append("tr:hover td{color:rgba(255,255,255,.9);background:rgba(102,126,234,.06)}");
         h.append("tr:last-child td{border-bottom:none}");
-        h.append(".sa{color:#2ecc71;font-weight:600;text-shadow:0 0 20px rgba(46,204,113,.15)}.sr{color:#f1c40f;font-weight:600}.sb{color:#e74c3c;font-weight:600}");
+        h.append(".sa{color:#2ecc71;font-weight:600;text-shadow:0 0 20px rgba(46,204,113,.15)}.sr{color:#f1c40f;font-weight:600}.sb{color:#e74c3c;font-weight:600}.sy{color:#f1c40f;font-weight:600;text-shadow:0 0 20px rgba(241,196,15,.15)}");
         h.append("select,input{padding:13px 18px;border:1px solid rgba(255,255,255,.06);border-radius:12px;font-size:14px;flex:1;min-width:0;transition:all .3s;background:rgba(255,255,255,.03);color:#e0e0f0;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer}");
         h.append("select{background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='%23666ea'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}");
         h.append("select option{background:#151530;color:#e0e0f0;padding:12px}");
-        h.append("select:hover,input:hover{border-color:rgba(102,126,234,.25);background:rgba(255,255,255,.05)}");
-        h.append("select:focus,input:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.07);box-shadow:0 0 0 4px rgba(102,126,234,.08)}");
-        h.append(".btn{padding:13px 30px;border:none;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;transition:all .3s;white-space:nowrap;letter-spacing:.3px}");
+        h.append("select:hover,input:hover{border-color:rgba(102,126,234,.25);background:rgba(255,255,255,.05);transform:translateY(-1px)}");
+        h.append("select:focus,input:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.07);box-shadow:0 0 0 4px rgba(102,126,234,.08);transform:translateY(-1px)}");
+        h.append(".btn{padding:13px 30px;border:none;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;transition:all .3s cubic-bezier(.25,.46,.45,.94);white-space:nowrap;letter-spacing:.3px;position:relative;overflow:hidden}");
+        h.append(".btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);background-size:200% 100%;transition:background .5s}");
+        h.append(".btn:hover::after{background-position:100% 0}");
         h.append(".btn-sm{padding:7px 16px;font-size:11px;border-radius:8px;letter-spacing:.2px}");
         h.append(".btn:hover{transform:translateY(-3px)}");
         h.append(".btn:active{transform:translateY(-1px)}");
@@ -1083,14 +1114,14 @@ footer a:hover{color:#667eea}
         h.append(".btn-suc:hover{box-shadow:0 8px 30px rgba(39,174,96,.35)}");
         h.append(".btn-rj{background:linear-gradient(135deg,#e74c3c,#ff6b6b);box-shadow:0 4px 20px rgba(231,76,60,.15)}");
         h.append(".btn-rj:hover{box-shadow:0 8px 25px rgba(231,76,60,.3)}");
-        h.append(".btn-rj{background:linear-gradient(135deg,#e74c3c,#ff6b6b);box-shadow:0 4px 20px rgba(231,76,60,.15)}");
-        h.append(".btn-rj:hover{box-shadow:0 8px 25px rgba(231,76,60,.3)}");
+        h.append(".topbar .btn-nav{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:8px 22px;text-decoration:none;font-size:.88em;font-weight:600;border-radius:10px;transition:all .3s cubic-bezier(.25,.46,.45,.94);display:inline-block}");
+        h.append(".topbar .btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35);color:#fff}");
         h.append(".empty{text-align:center;padding:35px;color:rgba(255,255,255,.2);font-size:.9em}");
         h.append(".filter-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}");
         h.append(".filter-row select{flex:1;min-width:0}");
-h.append(".form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}");
-h.append(".form-label{color:#c8c8e8;font-size:.9em;font-weight:600;margin-bottom:8px;display:block}");
-h.append(".form-group{flex:1;min-width:210px}");
+        h.append(".form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}");
+        h.append(".form-label{color:#c8c8e8;font-size:.9em;font-weight:600;margin-bottom:8px;display:block}");
+        h.append(".form-group{flex:1;min-width:210px}");
         h.append("@media(max-width:600px){body{padding:12px}.stats{gap:10px}.stat{padding:15px}.stat .n{font-size:1.4em}}");
         h.append("</style>");
         // ── JS filter data ──────────────────────────────
@@ -1112,16 +1143,18 @@ h.append("populateRequest()");
         
         h.append("</script></head><body><div class='container'>");
 
-        h.append("<div class='topbar'><div class='brand'>&#128218; <span>e</span>Library</div><div><a href='/logout'>Logout</a></div></div>");
+        h.append("<div class='topbar'><div class='brand'>&#128218; <span>e</span>Library</div><div><a href='/logout' class='btn-nav'>Logout</a></div></div>");
         h.append("<h1>My eLibrary</h1><p class='sub'>Welcome back, <strong>").append(username).append("</strong></p>");
 
         // Stats
-        long pendingReq = requests.stream().filter(r -> "pending".equals(r.getStatus())).count();
+        long myPendingReq = requests.stream().filter(r -> r.getUsername().equals(username) && "pending".equals(r.getStatus())).count();
+        long myBorrowed = borrows.stream().filter(br -> br.username.equals(username)).count();
+        long remaining = library.size() - myBorrowed;
         h.append("<div class='stats'>");
         h.append("<div class='stat avail'><span class='n'>").append(avail).append("</span><span class='l'>Available</span></div>");
-        h.append("<div class='stat req'><span class='n'>").append(pendingReq).append("</span><span class='l'>Requests</span></div>");
-        h.append("<div class='stat bor'><span class='n'>").append(borrowed).append("</span><span class='l'>Borrowed</span></div>");
-        h.append("<div class='stat tot'><span class='n'>").append(library.size()).append("</span><span class='l'>Total Books</span></div>");
+        h.append("<div class='stat req'><span class='n'>").append(myPendingReq).append("</span><span class='l'>Requests</span></div>");
+        h.append("<div class='stat bor'><span class='n'>").append(myBorrowed).append("</span><span class='l'>Borrowed</span></div>");
+        h.append("<div class='stat tot'><span class='n'>").append(remaining).append("</span><span class='l'>Remaining</span></div>");
         h.append("</div>");
 
         // Browse Books
@@ -1164,11 +1197,11 @@ h.append("<form id='reqform' method='POST'></form>");
                 Book b = findBook(br.isbn);
                 String title = b != null ? b.getTitle() : br.isbn;
                 String author = b != null ? b.getAuthor() : "";
+                long daysUntilDue = ChronoUnit.DAYS.between(LocalDateTime.now(), LocalDateTime.parse(br.dueDate, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
                 long daysOver = br.getDaysOverdue();
-                String sc = daysOver > 0 ? "sb" : "sa";
-                String st = daysOver > 0 ? daysOver + " day(s) overdue" : "On time";
-                long daysUntilDue = java.time.LocalDate.parse(br.dueDate).toEpochDay() - java.time.LocalDate.now().toEpochDay();
-                String dueSc = daysUntilDue <= 5 ? "sb" : "";
+                String sc = daysUntilDue <= 0 ? "sb" : (daysUntilDue <= 2 ? "sy" : "sa");
+                String st = daysOver > 0 ? daysOver + " day(s) overdue" : (daysUntilDue <= 0 ? "Due today" : (daysUntilDue <= 2 ? daysUntilDue + " day(s) remaining" : "On time"));
+                String dueSc = daysUntilDue <= 0 ? "sb" : (daysUntilDue <= 2 ? "sy" : "");
                 h.append("<tr><td>").append(br.isbn).append("</td><td>").append(title)
                  .append("</td><td>").append(author).append("</td>")
                  .append("<td class='").append(dueSc).append("'>").append(br.dueDate).append("</td>")
@@ -1239,39 +1272,71 @@ h.append("<form id='reqform' method='POST'></form>");
     private static String generateReadPage(Book book, BorrowRecord br, boolean blocked, String message, String flipUrl) {
         StringBuilder h = new StringBuilder();
         h.append("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>");
-        h.append("<title>").append(book.getTitle()).append(" &mdash; eLibrary System</title><style>");
+        h.append("<title>").append(book.getTitle()).append(" &mdash; eLibrary System</title>");
+        h.append("<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap' rel='stylesheet'>");
+        h.append("<style>");
+        h.append("@keyframes fadeUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}");
+        h.append("@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}");
+        h.append("@keyframes pageTurn{0%{opacity:0;transform:perspective(1200px) rotateY(-8deg) scale(.96)}100%{opacity:1;transform:perspective(1200px) rotateY(0) scale(1)}}");
+        h.append("@keyframes glowPulse{0%{box-shadow:0 0 20px rgba(102,126,234,.15)}50%{box-shadow:0 0 40px rgba(102,126,234,.3)}100%{box-shadow:0 0 20px rgba(102,126,234,.15)}}");
         h.append("*{box-sizing:border-box;margin:0;padding:0}");
-        h.append("body{font-family:'Georgia','Merriweather',serif;min-height:100vh;position:relative}");
-        h.append("body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600') center/cover no-repeat;filter:brightness(.08) blur(3px);pointer-events:none}");
-        h.append(".topbar{position:relative;z-index:1;background:rgba(18,18,40,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);color:#e0e0f0;padding:14px 30px;display:flex;justify-content:space-between;align-items:center}");
-        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 18px;border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.88em;transition:all .3s}");
-        h.append(".topbar a:hover{color:#fff;border-color:#667eea}");
-        h.append(".book-info{max-width:800px;margin:0 auto;padding:30px 20px 10px;position:relative;z-index:1}");
-        h.append(".book-info h1{font-size:1.8em;color:#e8e8ff;font-weight:700;letter-spacing:-.5px}.book-info .author{color:rgba(255,255,255,.35);font-size:1.05em;margin-top:6px}");
-        h.append(".due-bar{position:relative;z-index:1;background:rgba(18,18,40,.8);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px 24px;margin:20px auto;max-width:800px;display:flex;justify-content:space-between;align-items:center}");
-        h.append(".due-bar .warn{color:#e74c3c;font-weight:600}.due-bar .ok{color:#2ecc71;font-weight:600}");
-        h.append(".flipframe{position:relative;z-index:1;width:100%;height:calc(100vh - 160px);margin:0 auto;max-width:1000px;padding:0 10px 10px}");
-        h.append(".flipframe iframe{width:100%;height:100%;border:none;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.3)}");
-        h.append(".content{max-width:800px;margin:0 auto;padding:0 20px 40px;position:relative;z-index:1}");
-        h.append(".content .card{background:rgba(18,18,40,.8);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:45px;box-shadow:0 8px 40px rgba(0,0,0,.25);line-height:1.9;font-size:1.05em;color:rgba(255,255,255,.8)}");
-        h.append(".blocked{text-align:center;padding:100px 20px;position:relative;z-index:1}.blocked h2{color:#e74c3c;margin-bottom:16px;font-size:1.4em}.blocked p{color:rgba(255,255,255,.4);margin-bottom:28px}.blocked a{display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;text-decoration:none;font-weight:600;transition:all .3s}.blocked a:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35)}");
+        h.append("body{font-family:'Merriweather',Georgia,serif;min-height:100vh;position:relative;background:#0a0a18;overflow-x:hidden}");
+        h.append("body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 20% 50%,rgba(102,126,234,.06),transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(118,75,162,.05),transparent 60%),url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600') center/cover no-repeat;filter:brightness(.06) blur(2px);pointer-events:none}");
+        h.append(".topbar{position:relative;z-index:10;background:rgba(12,12,28,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05);color:#e0e0f0;padding:0 30px;display:flex;justify-content:space-between;align-items:center;height:60px;animation:fadeIn .5s ease-out}");
+        h.append(".topbar .title{font-family:'Inter',sans-serif;font-size:.9em;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.3px;max-width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}");
+        h.append(".topbar .title span{color:#667eea}");
+        h.append(".topbar .nav-links{display:flex;gap:10px;align-items:center}");
+        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 18px;border:1px solid rgba(255,255,255,.06);border-radius:10px;font-size:.82em;font-family:'Inter',sans-serif;transition:all .3s;font-weight:500}");
+        h.append(".topbar a:hover{color:#fff;border-color:#667eea;background:rgba(102,126,234,.1);transform:translateY(-1px)}");
+        h.append(".hero{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:50px 24px 30px;text-align:center;animation:fadeUp .6s ease-out}");
+        h.append(".hero .icon{font-size:56px;margin-bottom:16px;display:inline-block;filter:drop-shadow(0 8px 30px rgba(102,126,234,.25));animation:glowPulse 3s ease-in-out infinite}");
+        h.append(".hero h1{font-family:'Inter',sans-serif;font-size:2.2em;color:#f0f0ff;font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:8px}");
+        h.append(".hero .author{color:rgba(255,255,255,.35);font-size:1.1em;font-weight:400}.hero .author strong{color:rgba(255,255,255,.55);font-weight:600}");
+        h.append(".hero .meta{display:flex;justify-content:center;gap:20px;margin-top:16px;flex-wrap:wrap}");
+        h.append(".hero .meta span{font-family:'Inter',sans-serif;font-size:.78em;color:rgba(255,255,255,.25);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);padding:6px 16px;border-radius:20px;letter-spacing:.3px}");
+        h.append(".due-bar{position:relative;z-index:1;max-width:800px;margin:0 auto 20px;padding:0 24px;animation:fadeUp .6s ease-out .1s both}");
+        h.append(".due-bar .inner{background:rgba(12,12,28,.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;transition:all .3s}");
+        h.append(".due-bar .inner:hover{border-color:rgba(255,255,255,.1)}");
+        h.append(".due-bar .warn{color:#ff6b6b;font-family:'Inter',sans-serif;font-weight:600;font-size:.9em;display:flex;align-items:center;gap:8px}.due-bar .warn-yellow{color:#f1c40f;font-family:'Inter',sans-serif;font-weight:600;font-size:.9em;display:flex;align-items:center;gap:8px}");
+        h.append(".due-bar .warn::before,.due-bar .warn-yellow::before{content:'\\26A0';font-size:1.1em}");
+        h.append(".due-bar .ok{color:#2ecc71;font-family:'Inter',sans-serif;font-weight:600;font-size:.9em;display:flex;align-items:center;gap:8px}");
+        h.append(".due-bar .ok::before{content:'\\2713';font-size:1.1em}");
+        h.append(".due-bar .date{color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;font-size:.82em}");
+        h.append(".reader{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px 60px;animation:fadeUp .6s ease-out .15s both}");
+        h.append(".flipframe{width:100%;height:calc(100vh - 160px);border-radius:16px;overflow:hidden;box-shadow:0 8px 60px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.04)}");
+        h.append(".flipframe iframe{width:100%;height:100%;border:none}");
+        h.append(".content-card{background:rgba(16,16,36,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:50px 55px;box-shadow:0 8px 60px rgba(0,0,0,.3);line-height:2;font-size:1.05em;color:rgba(255,255,255,.8);animation:pageTurn .8s ease-out;position:relative}");
+        h.append(".content-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#667eea,#764ba2,transparent);border-radius:20px 20px 0 0}");
+        h.append(".content-card p{margin-bottom:1.2em;text-indent:1.5em}");
+        h.append(".content-card strong{color:#d0d0ff;font-weight:700}");
+        h.append(".blocked{text-align:center;padding:120px 24px;position:relative;z-index:1;max-width:600px;margin:0 auto;animation:fadeUp .6s ease-out}");
+        h.append(".blocked .icon{font-size:72px;margin-bottom:20px;display:block;opacity:.5}");
+        h.append(".blocked h2{font-family:'Inter',sans-serif;color:#ff6b6b;margin-bottom:12px;font-size:1.5em;font-weight:700}");
+        h.append(".blocked p{color:rgba(255,255,255,.4);margin-bottom:32px;font-size:.95em;line-height:1.6}");
+        h.append(".blocked a{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.9em;transition:all .3s}");
+        h.append(".blocked a:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(102,126,234,.35)}");
+        h.append("@media(max-width:600px){.hero h1{font-size:1.4em}.content-card{padding:28px 22px;font-size:.95em}.topbar{padding:0 16px}.due-bar .inner{flex-direction:column;gap:8px;text-align:center}}");
         h.append("</style></head><body>");
-        h.append("<div class='topbar'><span>").append(book.getTitle()).append("</span><a href='/dashboard'>&larr; Dashboard</a></div>");
-        h.append("<div class='book-info'><h1>").append(book.getTitle()).append("</h1><p class='author'>by ").append(book.getAuthor()).append("</p></div>");
+        h.append("<div class='topbar'><div class='title'>&#128218; <span>e</span>Library</div><div class='nav-links'><a href='/dashboard'>&larr; Dashboard</a></div></div>");
+        h.append("<div class='hero'><div class='icon'>&#128214;</div><h1>").append(book.getTitle()).append("</h1>");
+        h.append("<p class='author'>by <strong>").append(book.getAuthor()).append("</strong></p>");
+        h.append("<div class='meta'><span>").append(book.getType()).append("</span><span>").append(book.getLevel()).append("</span><span>").append(book.getClassName()).append("</span></div></div>");
 
         if (br != null) {
-            long daysUntilDue = java.time.LocalDate.parse(br.dueDate).toEpochDay() - java.time.LocalDate.now().toEpochDay();
-            String warnClass = daysUntilDue <= 5 ? "warn" : "ok";
-            String warnText = daysUntilDue <= 0 ? "OVERDUE" : (daysUntilDue <= 5 ? daysUntilDue + " day(s) remaining" : "Due: " + br.dueDate);
-            h.append("<div class='due-bar'><span class='").append(warnClass).append("'>").append(warnText).append("</span><span>Borrowed until ").append(br.dueDate).append("</span></div>");
+            long daysUntilDue = ChronoUnit.DAYS.between(LocalDateTime.now(), LocalDateTime.parse(br.dueDate, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
+            String warnClass = daysUntilDue <= 0 ? "warn" : (daysUntilDue <= 2 ? "warn-yellow" : "ok");
+            String warnText = daysUntilDue <= 0 ? "Overdue — please return the book" : (daysUntilDue <= 2 ? daysUntilDue + " day(s) remaining" : "On time");
+            h.append("<div class='due-bar'><div class='inner'><span class='").append(warnClass).append("'>").append(warnText).append("</span><span class='date'>Due ").append(br.dueDate).append("</span></div></div>");
         }
 
+        h.append("<div class='reader'>");
         if (blocked) {
-            h.append("<div class='blocked'><h2>").append(message != null ? message : "Access Denied").append("</h2><a href='/dashboard'>Back to Dashboard</a></div>");
+            h.append("</div>");
+            h.append("<div class='blocked'><div class='icon'>&#128274;</div><h2>").append(message != null ? message : "Access Denied").append("</h2><p>You have not borrowed this book or your borrowing period has expired.</p><a href='/dashboard'>Back to Dashboard</a></div>");
         } else if (flipUrl != null) {
-            h.append("<div class='flipframe'><iframe src='").append(flipUrl).append("' allowfullscreen></iframe></div>");
+            h.append("<div class='flipframe'><iframe src='").append(flipUrl).append("' allowfullscreen></iframe></div></div>");
         } else {
-            h.append("<div class='content'><div class='card'>").append(book.getContent()).append("</div></div>");
+            h.append("<div class='content-card'>").append(book.getContent()).append("</div></div>");
         }
         h.append("</body></html>");
         return h.toString();
@@ -1371,8 +1436,13 @@ h.append("<form id='reqform' method='POST'></form>");
             .err{color:#ff6b6b;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:.85em;text-align:left}
             .link{display:block;margin-top:18px;color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}
             .link:hover{color:#e74c3c}
+            .input-group{position:relative}
+            .toggle-pwd{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,255,255,.35);font-size:18px;user-select:none;z-index:2}
+            .toggle-pwd:hover{color:rgba(255,255,255,.6)}
             @media(max-width:480px){.box{padding:35px 24px;border-radius:16px}}
-            </style></head><body>
+            </style>
+            <script>function togglePwd(id,el){var inp=document.getElementById(id);if(inp.type==='password'){inp.type='text';el.innerHTML='&#128064;'}else{inp.type='password';el.innerHTML='&#128065;'}}</script>
+            </head><body>
             <div class="box">
             <span class="logo">&#128274;</span>
             <h2>Librarian Login</h2>
@@ -1380,7 +1450,7 @@ h.append("<form id='reqform' method='POST'></form>");
             <form method='POST'>
             <input type='hidden' name='action' value='login'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Librarian username' required></div>
-            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' placeholder='Password' required></div>
+            <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='apwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('apwd',this)">&#128065;</span></div>
             <button type='submit' class='btn'>Login</button>
             </form>
             <a href='/login' class='link'>&larr; Back to eLibrary</a>
@@ -1392,67 +1462,111 @@ h.append("<form id='reqform' method='POST'></form>");
         StringBuilder h = new StringBuilder();
         h.append("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>");
         h.append("<title>Librarian Panel &mdash; eLibrary System</title><style>");
+        h.append("@keyframes fadeUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}");
+        h.append("@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}");
+        h.append("@keyframes slideIn{0%{opacity:0;transform:translateX(-20px)}100%{opacity:1;transform:translateX(0)}}");
+        h.append("@keyframes glowPulse{0%{box-shadow:0 0 5px rgba(231,76,60,.2)}50%{box-shadow:0 0 25px rgba(231,76,60,.4)}100%{box-shadow:0 0 5px rgba(231,76,60,.2)}}");
         h.append("*{box-sizing:border-box;margin:0;padding:0}");
-        h.append("body{font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;padding:20px;position:relative}");
+        h.append("body{font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;padding:20px;position:relative;overflow-x:hidden}");
         h.append("body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600') center/cover no-repeat;filter:brightness(.08) blur(3px);pointer-events:none}");
-        h.append(".container{max-width:1100px;margin:0 auto;position:relative;z-index:1}");
-        h.append(".topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(16,16,36,.8);border:1px solid rgba(255,255,255,.06);border-radius:16px;margin-bottom:28px;backdrop-filter:blur(14px)}");
-        h.append(".topbar .brand{color:#e0e0f0;font-size:1.05em;font-weight:600;letter-spacing:.3px}");
+        h.append(".container{max-width:1100px;margin:0 auto;position:relative;z-index:1;animation:fadeUp .6s ease-out}");
+        h.append(".topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(16,16,36,.8);border:1px solid rgba(255,255,255,.06);border-radius:16px;margin-bottom:28px;backdrop-filter:blur(14px);animation:fadeIn .8s ease-out}");
+        h.append(".topbar .brand{color:#e0e0f0;font-size:1.05em;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:8px}");
         h.append(".topbar .brand span{color:#e74c3c}");
-        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 20px;border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.88em;transition:all .3s}");
-        h.append(".topbar a:hover{color:#fff;border-color:#e74c3c;background:rgba(231,76,60,.12)}");
-        h.append("h1{color:#e8e8ff;text-align:center;margin-bottom:4px;font-size:1.8em;font-weight:700;letter-spacing:-.5px}.sub{color:rgba(255,255,255,.35);text-align:center;margin-bottom:28px;font-size:.95em}");
-        h.append(".card{background:rgba(16,16,36,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px;margin-bottom:24px;box-shadow:0 8px 50px rgba(0,0,0,.3)}");
+        h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 20px;border:1px solid rgba(255,255,255,.08);border-radius:10px;font-size:.88em;transition:all .3s;position:relative;overflow:hidden}");
+        h.append(".topbar a::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#e74c3c,#c0392b);opacity:0;transition:opacity .3s;border-radius:10px}");
+        h.append(".topbar a:hover::before{opacity:.15}");
+        h.append(".topbar a:hover{color:#fff;border-color:#e74c3c;transform:translateY(-2px);box-shadow:0 6px 20px rgba(231,76,60,.2)}");
+        h.append("h1{color:#e8e8ff;text-align:center;margin-bottom:4px;font-size:1.8em;font-weight:700;letter-spacing:-.5px;animation:fadeIn .6s ease-out .1s both}.sub{color:rgba(255,255,255,.35);text-align:center;margin-bottom:28px;font-size:.95em;animation:fadeIn .6s ease-out .15s both}");
+        h.append(".stats{display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap}");
+        h.append(".stat{padding:20px 24px;flex:1;min-width:130px;text-align:center;border-radius:14px;border:1px solid rgba(255,255,255,.06);transition:all .4s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden}");
+        h.append(".stat::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,var(--glow,transparent) 0%,transparent 70%);opacity:0;transition:opacity .4s}");
+        h.append(".stat:hover::after{opacity:1}");
+        h.append(".stat .n{font-size:2em;font-weight:700;display:block;position:relative;z-index:1}.stat .l{font-size:.82em;margin-top:5px;opacity:.85;text-transform:uppercase;letter-spacing:.5px;position:relative;z-index:1}");
+        h.append(".stat.avail{background:rgba(39,174,96,.1);color:#2ecc71;border-color:rgba(39,174,96,.15);--glow:rgba(39,174,96,.15)}");
+        h.append(".stat.avail:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(39,174,96,.2);border-color:rgba(39,174,96,.3)}");
+        h.append(".stat.req{background:rgba(243,156,18,.08);color:#f1c40f;border-color:rgba(243,156,18,.12);--glow:rgba(243,156,18,.12)}");
+        h.append(".stat.req:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(243,156,18,.2);border-color:rgba(243,156,18,.3)}");
+        h.append(".stat.bor{background:rgba(231,76,60,.08);color:#e74c3c;border-color:rgba(231,76,60,.12);--glow:rgba(231,76,60,.12)}");
+        h.append(".stat.bor:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(231,76,60,.2);border-color:rgba(231,76,60,.3)}");
+        h.append(".stat.tot{background:rgba(39,174,96,.08);color:#2ecc71;border-color:rgba(39,174,96,.12);--glow:rgba(39,174,96,.1)}");
+        h.append(".stat.tot:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(39,174,96,.2);border-color:rgba(39,174,96,.3)}");
+        h.append(".card{background:rgba(16,16,36,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:28px;margin-bottom:24px;box-shadow:0 8px 50px rgba(0,0,0,.3);transition:all .4s cubic-bezier(.25,.46,.45,.94);animation:fadeUp .6s ease-out .2s both}");
+        h.append(".card:hover{border-color:rgba(255,255,255,.1);box-shadow:0 12px 60px rgba(0,0,0,.4);transform:translateY(-2px)}");
         h.append(".card h2{font-size:1.1em;color:#d0d0f0;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.2px}");
         h.append("table{width:100%;border-collapse:collapse}");
         h.append("th{padding:14px 12px;text-align:left;font-size:.75em;text-transform:uppercase;letter-spacing:.7px;color:rgba(255,255,255,.3);font-weight:700;border-bottom:1px solid rgba(255,255,255,.06)}");
-        h.append("td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.9em;color:rgba(255,255,255,.65);transition:color .2s}");
-        h.append("tr:hover td{color:rgba(255,255,255,.9);background:rgba(255,255,255,.03)}");
+        h.append("td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.9em;color:rgba(255,255,255,.65);transition:all .3s}");
+        h.append("tr{transition:background .2s}");
+        h.append("tr:nth-child(even):not(.group-header) td{background:rgba(255,255,255,.015)}");
+        h.append("tr:hover td{color:rgba(255,255,255,.9);background:rgba(231,76,60,.06)}");
+        h.append("tr.group-header td{padding:10px 12px;background:rgba(231,76,60,.12);color:#e74c3c;font-weight:700;font-size:.82em;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(231,76,60,.15);cursor:default}");
         h.append("tr:last-child td{border-bottom:none}");
-        h.append(".sa{color:#2ecc71;font-weight:600;text-shadow:0 0 20px rgba(46,204,113,.15)}.sb{color:#e74c3c;font-weight:600}");
-        h.append(".pending{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:12px;flex-wrap:wrap;gap:14px;transition:all .3s}");
-        h.append(".pending:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)}");
+        h.append(".sa{color:#2ecc71;font-weight:600;text-shadow:0 0 20px rgba(46,204,113,.15)}.sb{color:#e74c3c;font-weight:600}.sy{color:#f1c40f;font-weight:600;text-shadow:0 0 20px rgba(241,196,15,.15)}");
+        h.append(".pending{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:12px;flex-wrap:wrap;gap:14px;transition:all .4s cubic-bezier(.25,.46,.45,.94);animation:slideIn .4s ease-out both}");
+        h.append(".pending:nth-child(2){animation-delay:.05s}.pending:nth-child(3){animation-delay:.1s}.pending:nth-child(4){animation-delay:.15s}");
+        h.append(".pending:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04);transform:translateX(4px)}");
         h.append(".pending .info{flex:1;color:rgba(255,255,255,.6);font-size:.92em}.pending .info strong{color:#e0e0f0}");
         h.append(".pending .btns{display:flex;gap:10px}");
         h.append("form{display:flex;gap:10px;flex-wrap:wrap;align-items:center}");
-        h.append(".btn{padding:9px 20px;border:none;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;transition:all .3s;letter-spacing:.2px}");
-        h.append(".btn:hover{transform:translateY(-2px)}");
-        h.append(".btn:active{transform:translateY(0)}");
+        h.append(".btn{padding:9px 20px;border:none;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:#fff;transition:all .3s cubic-bezier(.25,.46,.45,.94);letter-spacing:.2px;position:relative;overflow:hidden}");
+        h.append(".btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);background-size:200% 100%;transition:background .5s}");
+        h.append(".btn:hover::after{background-position:100% 0}");
+        h.append(".btn:hover{transform:translateY(-3px)}");
+        h.append(".btn:active{transform:translateY(-1px)}");
         h.append(".btn-ap{background:linear-gradient(135deg,#27ae60,#2ecc71);box-shadow:0 4px 15px rgba(39,174,96,.15)}");
         h.append(".btn-ap:hover{box-shadow:0 8px 25px rgba(39,174,96,.3)}");
         h.append(".btn-rj{background:linear-gradient(135deg,#e74c3c,#ff6b6b);box-shadow:0 4px 15px rgba(231,76,60,.15)}");
         h.append(".btn-rj:hover{box-shadow:0 8px 25px rgba(231,76,60,.3)}");
         h.append(".btn-dl{background:#e74c3c;padding:4px 12px;font-size:12px}");
+        h.append(".topbar .btn-nav{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;padding:8px 22px;text-decoration:none;font-size:.88em;font-weight:600;border-radius:10px;transition:all .3s cubic-bezier(.25,.46,.45,.94);display:inline-block}");
+        h.append(".topbar .btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(231,76,60,.35);color:#fff}");
         h.append(".empty{text-align:center;padding:30px;color:rgba(255,255,255,.25);font-size:.92em}");
-        h.append("@media(max-width:600px){body{padding:12px}.pending{flex-direction:column}.pending .btns{width:100%}}");
+        h.append("@media(max-width:600px){body{padding:12px}.pending{flex-direction:column;animation-delay:0s!important}.pending .btns{width:100%}}");
         h.append("</style></head><body><div class='container'>");
 
-        h.append("<div class='topbar'><div class='brand'>&#128274; <span>Librarian</span> Panel</div><div><a href='/logout'>Logout</a></div></div>");
+        h.append("<div class='topbar'><div class='brand'>&#128274; <span>Librarian</span> Panel</div><div><a href='/logout' class='btn-nav'>Logout</a></div></div>");
         h.append("<h1>Librarian Panel</h1><p class='sub'>Manage book requests &amp; users</p>");
 
-        // Pending requests
+        // Stats row
+        long totalReq = requests.stream().filter(r -> "pending".equals(r.getStatus())).count();
+        long totalRemaining = library.size() - borrows.size();
+        h.append("<div class='stats'>");
+        h.append("<div class='stat avail'><span class='n'>").append(library.size()).append("</span><span class='l'>Available</span></div>");
+        h.append("<div class='stat req'><span class='n'>").append(totalReq).append("</span><span class='l'>Requests</span></div>");
+        h.append("<div class='stat bor'><span class='n'>").append(borrows.size()).append("</span><span class='l'>Borrowed</span></div>");
+        h.append("<div class='stat tot'><span class='n'>").append(totalRemaining).append("</span><span class='l'>Remaining</span></div>");
+        h.append("</div>");
+
+        // Pending requests grouped by user
         h.append("<div class='card'><h2>&#128203; Pending Requests</h2>");
         List<Request> pending = requests.stream().filter(r -> "pending".equals(r.getStatus())).collect(Collectors.toList());
         if (!pending.isEmpty()) {
-            for (Request r : pending) {
-                Book b = findBook(r.getIsbn());
-                String title = b != null ? b.getTitle() : r.getIsbn();
-                h.append("<div class='pending'><div class='info'><strong>").append(title).append("</strong>")
-                 .append(" &mdash; requested by <strong>").append(r.getUsername()).append("</strong>")
-                 .append(" &mdash; ").append(r.getTimestamp())
-                 .append("</div><div class='btns'>")
-                 .append("<form method='POST'><input type='hidden' name='action' value='approve'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><input type='hidden' name='username' value='").append(r.getUsername()).append("'><button class='btn btn-ap'>Approve</button></form>")
-                 .append("<form method='POST'><input type='hidden' name='action' value='reject'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><input type='hidden' name='username' value='").append(r.getUsername()).append("'><button class='btn btn-rj'>Reject</button></form>")
-                 .append("</div></div>");
+            Map<String, List<Request>> byUser = new LinkedHashMap<>();
+            for (Request r : pending)
+                byUser.computeIfAbsent(r.getUsername(), k -> new ArrayList<>()).add(r);
+            for (Map.Entry<String, List<Request>> entry : byUser.entrySet()) {
+                h.append("<h3 style='color:#e8e8ff;font-size:.95em;margin:4px 0 10px 8px;opacity:.9'>").append(entry.getKey()).append("</h3>");
+                for (Request r : entry.getValue()) {
+                    Book b = findBook(r.getIsbn());
+                    String title = b != null ? b.getTitle() : r.getIsbn();
+                    h.append("<div class='pending'><div class='info'><strong>").append(title).append("</strong>")
+                     .append(" &mdash; ").append(r.getTimestamp())
+                     .append("</div><div class='btns'>")
+                     .append("<form method='POST'><input type='hidden' name='action' value='approve'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><input type='hidden' name='username' value='").append(r.getUsername()).append("'><button class='btn btn-ap'>Approve</button></form>")
+                     .append("<form method='POST'><input type='hidden' name='action' value='reject'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><input type='hidden' name='username' value='").append(r.getUsername()).append("'><button class='btn btn-rj'>Reject</button></form>")
+                     .append("</div></div>");
+                }
             }
         } else h.append("<p class='empty'>No pending requests.</p>");
         h.append("</div>");
 
         // Manage users
         h.append("<div class='card'><h2>&#128101; Manage Users</h2>");
-        h.append("<table><tr><th>Username</th><th>Role</th><th>Action</th></tr>");
+        h.append("<table><tr><th>Username</th><th>Phone</th><th>Role</th><th>Action</th></tr>");
         for (User u : users) {
-            h.append("<tr><td>").append(u.getUsername()).append("</td><td>").append(u.getRole()).append("</td><td>");
+            String phone = u.getPhoneNumber();
+            h.append("<tr><td>").append(u.getUsername()).append("</td><td>").append(phone.isEmpty() ? "&mdash;" : phone).append("</td><td>").append(u.getRole()).append("</td><td>");
             if (!"admin".equals(u.getRole()))
                 h.append("<form method='POST'><input type='hidden' name='action' value='deleteuser'><input type='hidden' name='username' value='").append(u.getUsername()).append("'><button class='btn btn-dl'>Delete</button></form>");
             else h.append("<span style='color:#aaa;font-size:.85em'>-</span>");
@@ -1460,32 +1574,51 @@ h.append("<form id='reqform' method='POST'></form>");
         }
         h.append("</table></div>");
 
-        // Borrowed books with fees
-        h.append("<div class='card'><h2>&#128200; Borrowed Books &amp; Fees</h2>");
+        // Borrowed books grouped by user
+        h.append("<div class='card'><h2>&#128200; Borrowed Books</h2>");
         if (!borrows.isEmpty()) {
-            h.append("<table><tr><th>ISBN</th><th>Title</th><th>Borrower</th><th>Due Date</th><th>Status</th><th>Late Fee</th></tr>");
-            for (BorrowRecord br : borrows) {
-                Book b = findBook(br.isbn);
-                String title = b != null ? b.getTitle() : br.isbn;
-                long d = br.getDaysOverdue();
-                double f = br.getLateFee();
-                String sc = d > 0 ? "sb" : "sa";
-                h.append("<tr><td>").append(br.isbn).append("</td><td>").append(title)
-                 .append("</td><td>").append(br.username).append("</td>")
-                 .append("<td>").append(br.dueDate).append("</td>")
-                 .append("<td class='").append(sc).append("'>").append(d > 0 ? d + " day(s) overdue" : "On time").append("</td>")
-                 .append("<td class='").append(sc).append("'>$").append(String.format("%.2f", f)).append("</td></tr>");
+            Map<String, List<BorrowRecord>> byUser = new LinkedHashMap<>();
+            for (BorrowRecord br : borrows)
+                byUser.computeIfAbsent(br.username, k -> new ArrayList<>()).add(br);
+            h.append("<table><tr><th>Borrower</th><th>ISBN</th><th>Title</th><th>Due Date</th><th>Status</th></tr>");
+            for (Map.Entry<String, List<BorrowRecord>> entry : byUser.entrySet()) {
+                h.append("<tr class='group-header'><td colspan='5'>").append(entry.getKey()).append("</td></tr>");
+                for (BorrowRecord br : entry.getValue()) {
+                    Book b = findBook(br.isbn);
+                    String title = b != null ? b.getTitle() : br.isbn;
+                    long daysUntilDue = ChronoUnit.DAYS.between(LocalDateTime.now(), LocalDateTime.parse(br.dueDate, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")));
+                    long d = br.getDaysOverdue();
+                    String sc = daysUntilDue <= 0 ? "sb" : (daysUntilDue <= 2 ? "sy" : "sa");
+                    String st = d > 0 ? d + " day(s) overdue" : (daysUntilDue <= 0 ? "Due today" : (daysUntilDue <= 2 ? daysUntilDue + " day(s) remaining" : "On time"));
+                    h.append("<tr><td></td><td>").append(br.isbn).append("</td><td>").append(title)
+                     .append("</td><td>").append(br.dueDate).append("</td>")
+                     .append("<td class='").append(sc).append("'>").append(st).append("</td></tr>");
+                }
             }
             h.append("</table>");
         } else h.append("<p class='empty'>No borrowed books.</p>");
         h.append("</div>");
 
-        // All books (read-only)
-        h.append("<div class='card'><h2>&#128214; All Books</h2>");
-        h.append("<table><tr><th>ISBN</th><th>Title</th><th>Author</th></tr>");
+        // All books grouped by class
+        h.append("<div class='card'><h2>&#128214; All Books by Class</h2>");
+        Map<String, List<Book>> byClass = new LinkedHashMap<>();
+        List<String> classOrder = Arrays.asList("Form 1", "Form 2", "Form 3", "Form 4", "Form 5", "Form 6", "Play", "Novel");
         for (Book b : library) {
-            h.append("<tr><td>").append(b.getIsbn()).append("</td><td>").append(b.getTitle())
-             .append("</td><td>").append(b.getAuthor()).append("</td></tr>");
+            byClass.computeIfAbsent(b.getClassName(), k -> new ArrayList<>()).add(b);
+        }
+        List<Map.Entry<String, List<Book>>> sortedEntries = new ArrayList<>();
+        for (String cls : classOrder) {
+            if (byClass.containsKey(cls))
+                sortedEntries.add(Map.entry(cls, byClass.remove(cls)));
+        }
+        byClass.forEach((k, v) -> sortedEntries.add(Map.entry(k, v)));
+        h.append("<table><tr><th>ISBN</th><th>Title</th><th>Author</th><th>Class</th></tr>");
+        for (Map.Entry<String, List<Book>> entry : sortedEntries) {
+            h.append("<tr class='group-header'><td colspan='4'>").append(entry.getKey()).append("</td></tr>");
+            for (Book b : entry.getValue()) {
+                h.append("<tr><td>").append(b.getIsbn()).append("</td><td>").append(b.getTitle())
+                 .append("</td><td>").append(b.getAuthor()).append("</td><td>").append(b.getClassName()).append("</td></tr>");
+            }
         }
         h.append("</table></div></div></body></html>");
         return h.toString();

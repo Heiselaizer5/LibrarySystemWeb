@@ -1,7 +1,8 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 class BorrowRecord {
-    static final double DAILY_FEE = 1.0;
     String isbn;
     String username;
     String dueDate;
@@ -9,20 +10,19 @@ class BorrowRecord {
     BorrowRecord(String isbn, String username) {
         this.isbn = isbn;
         this.username = username;
-        this.dueDate = LocalDate.now().plusDays(14).toString();
+        this.dueDate = LocalDateTime.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+    }
+
+    private LocalDateTime parsed() {
+        return LocalDateTime.parse(dueDate, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
     }
 
     boolean isOverdue() {
-        return LocalDate.parse(dueDate).isBefore(LocalDate.now());
-    }
-
-    double getLateFee() {
-        long daysLate = LocalDate.now().toEpochDay() - LocalDate.parse(dueDate).toEpochDay();
-        return daysLate > 0 ? daysLate * DAILY_FEE : 0;
+        return parsed().isBefore(LocalDateTime.now());
     }
 
     long getDaysOverdue() {
-        long days = LocalDate.now().toEpochDay() - LocalDate.parse(dueDate).toEpochDay();
+        long days = ChronoUnit.DAYS.between(parsed(), LocalDateTime.now());
         return days > 0 ? days : 0;
     }
 }
