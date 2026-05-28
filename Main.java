@@ -685,6 +685,17 @@ public class Main {
         try (OutputStream os = exchange.getResponseBody()) { os.write(bytes); }
     }
 
+    private static String getQueryParam(HttpExchange exchange, String name) {
+        String query = exchange.getRequestURI().getQuery();
+        if (query == null) return null;
+        for (String param : query.split("&")) {
+            String[] kv = param.split("=", 2);
+            if (kv.length == 2 && kv[0].equals(name))
+                return java.net.URLDecoder.decode(kv[1], java.nio.charset.StandardCharsets.UTF_8);
+        }
+        return null;
+    }
+
     private static void redirect(HttpExchange exchange, String path) throws Exception {
         exchange.getResponseHeaders().set("Location", path);
         exchange.sendResponseHeaders(303, -1);
@@ -867,8 +878,8 @@ footer a:hover{color:#667eea}
             String username = form.getOrDefault("username", "").trim();
             String password = form.getOrDefault("password", "").trim();
             String phone = form.getOrDefault("phone", "").trim();
-            if (username.isEmpty() || password.isEmpty()) {
-                sendHtml(exchange, generateSignupPage("Fill all fields."));
+            if (username.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+                sendHtml(exchange, generateSignupPage("<span class='warn-icon'>&#9888;&#65039;</span><span><strong>Incomplete Form</strong><br>Please fill in all fields to create your account.</span>"));
                 return;
             }
             for (User u : users)
@@ -878,8 +889,7 @@ footer a:hover{color:#667eea}
                 }
             users.add(new User(username, password, "user", phone));
             saveUsers();
-            setSession(exchange, username);
-            redirect(exchange, "/dashboard");
+            redirect(exchange, "/login?signup=1");
             return;
         }
         sendHtml(exchange, generateSignupPage(null));
@@ -908,7 +918,10 @@ footer a:hover{color:#667eea}
             .btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);transition:all .3s;margin-top:8px;letter-spacing:.3px}
             .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}
             .btn:active{transform:translateY(0)}
-            .err{color:#ff6b6b;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:.85em;text-align:left}
+            .err{color:#ff6b6b;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);padding:14px 18px;border-radius:12px;margin-bottom:20px;font-size:.88em;text-align:left;display:flex;align-items:center;gap:12px;animation:shake .4s ease-out}
+            .err .warn-icon{font-size:1.6em;flex-shrink:0}
+            .err strong{display:block;font-size:.95em;margin-bottom:2px}
+            @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
             .footer{margin-top:24px;display:flex;flex-direction:column;gap:10px}
             .footer a{color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}
             .footer a:hover{color:#667eea}
@@ -927,7 +940,7 @@ footer a:hover{color:#667eea}
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
             <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='spwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('spwd',this)">&#128065;</span></div>
-            <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' placeholder='Phone number (optional)'></div>
+            <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' id='sphone' placeholder='Phone number' required></div>
             <button type='submit' class='btn'>Sign Up</button>
             </form>
             <div class="footer">
@@ -956,7 +969,8 @@ footer a:hover{color:#667eea}
             sendHtml(exchange, generateLoginPage("Invalid credentials.", false));
             return;
         }
-        sendHtml(exchange, generateLoginPage(null, false));
+        boolean justRegistered = "1".equals(getQueryParam(exchange, "signup"));
+        sendHtml(exchange, generateLoginPage(null, justRegistered));
     }
 
     private static String generateLoginPage(String error, boolean registered) {
@@ -984,6 +998,10 @@ footer a:hover{color:#667eea}
             .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}
             .btn:active{transform:translateY(0)}
             .err{color:#ff6b6b;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:.85em;text-align:left}
+            .suc{color:#2ecc71;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.2);padding:14px 18px;border-radius:12px;margin-bottom:20px;font-size:.88em;text-align:left;display:flex;align-items:center;gap:12px;animation:fadeIn .5s ease-out}
+            .suc .suc-icon{font-size:1.4em;flex-shrink:0}
+            .suc strong{display:block;font-size:.95em;margin-bottom:2px}
+            @keyframes fadeIn{0%{opacity:0;transform:translateY(-6px)}100%{opacity:1;transform:translateY(0)}}
             .footer{margin-top:24px;display:flex;flex-direction:column;gap:10px}
             .footer a{color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}
             .footer a:hover{color:#667eea}
@@ -1000,6 +1018,7 @@ footer a:hover{color:#667eea}
             <p class="sub">Sign in to your account</p>
             """);
         if (error != null) h.append("<div class='err'>").append(error).append("</div>");
+        if (registered) h.append("<div class='suc'><span class='suc-icon'>&#9989;</span><span><strong>Account Created!</strong><br>Your account was created successfully. Please sign in.</span></div>");
         h.append("""
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
