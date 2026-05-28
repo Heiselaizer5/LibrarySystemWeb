@@ -574,7 +574,7 @@ public class Main {
         users.add(new User("admin", "admin123", "admin"));
         loadUsers();
 
-        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7860"));
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", exchange -> { try { handleRoot(exchange); } catch (Exception e) { e.printStackTrace(); }});
         server.createContext("/signup", exchange -> { try { handleSignup(exchange); } catch (Exception e) { e.printStackTrace(); }});
