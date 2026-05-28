@@ -1,0 +1,4 @@
+*.class
+users.dat
+cookies.txt
+.DS_Store
