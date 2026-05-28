@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY *.class ./
 COPY *.java ./
+RUN javac Main.java
 EXPOSE 7860
 CMD ["java", "Main"]
