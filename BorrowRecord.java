@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-class BorrowRecord {
+class BorrowRecord implements Serializable {
     String isbn;
     String username;
     String dueDate;

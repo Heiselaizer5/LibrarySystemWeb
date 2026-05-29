@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Request {
+public class Request implements Serializable {
     private final String isbn;
     private final String username;
     private final String timestamp;

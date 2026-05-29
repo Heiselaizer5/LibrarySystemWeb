@@ -21,6 +21,8 @@ public class Main {
     private static final Map<String, String> flipbooks = new HashMap<>();
 
     private static final Path DATA_FILE = Paths.get("users.dat");
+    private static final Path REQUESTS_FILE = Paths.get("requests.dat");
+    private static final Path BORROWS_FILE = Paths.get("borrows.dat");
 
     public static void main(String[] args) throws Exception {
         // ── Books ───────────────────────────────────────────
@@ -395,6 +397,144 @@ public class Main {
         library.add(Book.load("Historia ya Tanzania na Maadili", "TIE", "T218", "Tie", "Secondary", "Form 2",
             "Historia ya Tanzania na Maadili Kitabu cha Mwanafunzi Kidato cha Pili kinajikita katika historia ya Tanzania na maadili.<br><br>Topics: Historia ya Tanzania, Maadili na Uraia, Utamaduni na Jamii, Haki za Binadamu, Demokrasia, Uongozi Bora."));
 
+        // ── Pre-Primary / Nursery Books (Real TIE New Edition 2023 Curriculum) ──
+        library.add(Book.load("Early Arithmetic, Science and ICT Skills", "TIE", "T310", "Tie", "Pre-Primary", "Nursery",
+            "Early Arithmetic, Science and ICT Skills Child's Book for Pre-Primary introduces foundational numeracy, scientific observation, and basic ICT concepts through play-based activities. Aligned with the 2023 Pre-primary Curriculum.<br><br>Topics: Number Recognition 1-20, Counting and Sorting, Basic Shapes and Patterns, Simple Addition and Subtraction, Living and Non-Living Things, Weather and Seasons, Using a Computer, Digital Safety."));
+        library.add(Book.load("Health and Environment", "TIE", "T311", "Tie", "Pre-Primary", "Nursery",
+            "Health and Environment for Pre-Primary teaches young children about personal hygiene, nutrition, safety, and caring for the natural environment. Uses stories, pictures, and hands-on activities.<br><br>Topics: Hand Washing and Hygiene, Brushing Teeth, Healthy Eating, Sleep and Rest, Safety at Home and School, Plants and Animals, Caring for Our Surroundings, Recycling."));
+        library.add(Book.load("Early Life Skills", "TIE", "T312", "Tie", "Pre-Primary", "Nursery",
+            "Early Life Skills for Pre-Primary helps children develop social, emotional, and practical skills for daily life. The book promotes good values, self-awareness, and cooperation.<br><br>Topics: Myself and My Family, Emotions and Feelings, Sharing and Cooperation, Good Manners, Helping Others, Decision Making, Problem Solving, Personal Belongings."));
+        library.add(Book.load("Early Literacy Skills", "TIE", "T313", "Tie", "Pre-Primary", "Nursery",
+            "Early Literacy Skills for Pre-Primary introduces young learners to pre-reading and pre-writing skills. Uses colourful illustrations and simple activities to build a strong literacy foundation.<br><br>Topics: Print Awareness, Letter Recognition, Phonological Awareness, Phonics, Vocabulary Development, Simple Sentences, Story Comprehension, Pre-Writing Strokes, Handwriting."));
+        library.add(Book.load("Creative Arts and Sports", "TIE", "T314", "Tie", "Pre-Primary", "Nursery",
+            "Creative Arts and Sports for Pre-Primary nurtures creativity, self-expression, and physical development. Children explore art, music, dance, and simple sports through fun activities.<br><br>Topics: Drawing and Colouring, Painting and Printing, Paper Craft and Modeling, Action Songs and Rhymes, Rhythm and Movement, Simple Games, Ball Skills, Outdoor Play."));
+        library.add(Book.load("Ninaipenda Nchi yangu Tanzania", "TIE", "T315", "Tie", "Pre-Primary", "Nursery",
+            "Ninaipenda Nchi yangu Tanzania (I Love My Country Tanzania) for Pre-Primary introduces children to Tanzanian culture, national symbols, and patriotism. Written in Kiswahili to develop early civic awareness.<br><br>Topics: Bendera ya Taifa, Wanyama wa Tanzania, Vyakula vya Kitamaduni, Mavazi ya Jadi, Ngoma na Nyimbo za Taifa, Ramani ya Tanzania, Hifadhi za Taifa, Sherehe za Taifa."));
+
+        // ── Primary / Standard 1 Books (New Syllabus) ──
+        library.add(Book.load("Arithmetics", "TIE", "T400", "Tie", "Primary", "Standard 1",
+            "Arithmetics for Standard 1 introduces basic number concepts, counting, and simple operations. Uses colourful illustrations and hands-on activities aligned with the new syllabus.<br><br>Topics: Number Recognition 1-100, Counting and Grouping, Addition and Subtraction, Basic Shapes, Measurements, Time and Calendar, Money, Patterns and Sequences."));
+        library.add(Book.load("Health and Environment", "TIE", "T401", "Tie", "Primary", "Standard 1",
+            "Health and Environment for Standard 1 teaches personal hygiene, nutrition, safety, and environmental awareness. Interactive activities help young learners develop healthy habits.<br><br>Topics: Personal Hygiene, Nutrition and Food Groups, Safety at Home and School, The Human Body, Plants and Animals, Weather and Seasons, Water and Air, Caring for the Environment."));
+        library.add(Book.load("Culture, Arts and Sports", "TIE", "T402", "Tie", "Primary", "Standard 1",
+            "Culture, Arts and Sports for Standard 1 introduces Tanzanian cultural heritage, creative expression, and physical development. Children explore traditional music, dance, art, and games.<br><br>Topics: Traditional Dances and Songs, Drawing and Painting, Craft Making, Storytelling, Simple Games and Sports, Teamwork, Cultural Festivals, National Symbols."));
+        library.add(Book.load("Kusoma", "TIE", "T403", "Tie", "Primary", "Standard 1",
+            "Kusoma (Reading) for Standard 1 develops early Kiswahili reading skills. Builds vocabulary, comprehension, and a love for reading through engaging stories and exercises.<br><br>Topics: Kusoma kwa Sauti, Ufahamu wa Kusoma, Msamiati, Sarufi, Kuandika Sentensi, Kusimulia Hadithi, Mashairi, Utambuzi wa Herufi."));
+        library.add(Book.load("Learn English", "TIE", "T404", "Tie", "Primary", "Standard 1",
+            "Learn English for Standard 1 introduces basic English vocabulary, simple sentences, and everyday communication. Uses songs, pictures, and fun activities.<br><br>Topics: Alphabet and Phonics, Greetings and Introductions, Colours and Numbers, Family and Friends, Food and Animals, Classroom Objects, Simple Commands, Weather and Seasons."));
+        library.add(Book.load("Writing", "TIE", "T405", "Tie", "Primary", "Standard 1",
+            "Writing for Standard 1 develops fine motor skills and introduces letter formation, handwriting, and simple composition. Progressive exercises build writing confidence.<br><br>Topics: Pre-Writing Strokes, Letter Formation, Word Writing, Sentence Writing, Punctuation, Spelling, Creative Writing, Handwriting Practice."));
+
+        // ── Primary / Standard 1 Books (Kiswahili Medium) ──
+        library.add(Book.load("Kuhesabu (Kiswahili Medium Schools)", "TIE", "T406", "Tie", "Primary", "Standard 1",
+            "Kuhesabu (Hesabu) kwa Shule za Msingi Darasa la Kwanza (Kiswahili Medium Schools) huanzisha dhana za msingi za namba, kuhesabu, na shughuli rahisi za hesabu. Kinatumia picha za rangi na shughuli za vitendo.<br><br>Topics: Kutambua Namba 1-100, Kuhesabu na Kupanga, Kujumlisha na Kutoa, Maumbo ya Kijiometri, Vipimo, Saa na Kalenda, Pesa, Mfuatano na Miundo."));
+        library.add(Book.load("Afya na Mazingira (Kiswahili Medium Schools)", "TIE", "T407", "Tie", "Primary", "Standard 1",
+            "Afya na Mazingira kwa Shule za Msingi Darasa la Kwanza (Kiswahili Medium Schools) hufundisha usafi wa mwili, lishe, usalama na uelewa wa mazingira. Shughuli shirikishi humsaidia mtoto kukuza tabia za kiafya.<br><br>Topics: Usafi wa Mwili, Lishe na Makundi ya Vyakula, Usalama Nyumbani na Shuleni, Mwili wa Binadamu, Mimea na Wanyama, Hali ya Hewa, Maji na Hewa, Kutunza Mazingira."));
+        library.add(Book.load("Utamaduni Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T408", "Tie", "Primary", "Standard 1",
+            "Utamaduni Sanaa na Michezo kwa Shule za Msingi Darasa la Kwanza (Kiswahili Medium Schools) huanzisha urithi wa kitamaduni wa Tanzania, usemi wa kisanii, na ukuaji wa mwili. Watoto huchunguza muziki wa jadi, ngoma, sanaa na michezo.<br><br>Topics: Ngoma na Nyimbo za Jadi, Kuchora na Kupaka Rangi, Uundaji wa Vitu vya Mikono, Hadithi, Michezo Rahisi na Sanaa, Ushirikiano, Sherehe za Kitamaduni, Alama za Taifa."));
+        library.add(Book.load("Kuandika (Kiswahili Medium Schools)", "TIE", "T409", "Tie", "Primary", "Standard 1",
+            "Kuandika kwa Shule za Msingi Darasa la Kwanza (Kiswahili Medium Schools) huendeleza stadi za uandishi, uundaji wa herufi na utungaji. Mazoezi ya mfululizo hujenga ujasiri wa uandishi.<br><br>Topics: Stadi za Kabla ya Kuandika, Uundaji wa Herufi, Kuandika Maneno, Kuandika Sentensi, Uakifishaji, Tahajia, Uandishi wa Buni, Mazoezi ya Mwandiko."));
+        library.add(Book.load("Learn English (Kiswahili Medium Schools)", "TIE", "T410", "Tie", "Primary", "Standard 1",
+            "Learn English for Standard 1 (Kiswahili Medium Schools) introduces basic English vocabulary, simple sentences, and everyday communication. Uses songs, pictures, and fun activities.<br><br>Topics: Alphabet and Phonics, Greetings and Introductions, Colours and Numbers, Family and Friends, Food and Animals, Classroom Objects, Simple Commands, Weather and Seasons."));
+        library.add(Book.load("Kusoma (Kiswahili Medium Schools)", "TIE", "T411", "Tie", "Primary", "Standard 1",
+            "Kusoma kwa Shule za Msingi Darasa la Kwanza (Kiswahili Medium Schools) hukuza stadi za awali za kusoma kwa Kiswahili. Huunda msamiati, ufahamu, na upendo wa kusoma kupitia hadithi na mazoezi.<br><br>Topics: Kusoma kwa Sauti, Ufahamu wa Kusoma, Msamiati, Sarufi, Kuandika Sentensi, Kusimulia Hadithi, Mashairi, Utambuzi wa Herufi."));
+
+        // ── Primary / Standard 2 Books (English Medium) ──
+        library.add(Book.load("Arithmetic", "TIE", "T412", "Tie", "Primary", "Standard 2",
+            "Arithmetic for Standard 2 builds on basic number concepts, introduces larger numbers, and develops problem-solving skills. Uses engaging activities and real-life examples.<br><br>Topics: Number Recognition 1-1000, Addition and Subtraction, Multiplication Basics, Division Basics, Fractions, Measurements, Time, Money, Shapes and Patterns."));
+        library.add(Book.load("Health and Environment", "TIE", "T413", "Tie", "Primary", "Standard 2",
+            "Health and Environment for Standard 2 explores personal health, nutrition, safety, and environmental care. Interactive activities promote healthy habits and environmental awareness.<br><br>Topics: Personal Hygiene, Nutrition, Safety Rules, Human Body Systems, Plants and Animals, Weather, Water and Air, Waste Management."));
+        library.add(Book.load("Culture, Arts and Sports", "TIE", "T414", "Tie", "Primary", "Standard 2",
+            "Culture, Arts and Sports for Standard 2 deepens understanding of Tanzanian culture, creative arts, and physical education. Children explore traditional music, dance, crafts, and games.<br><br>Topics: Traditional Songs and Dances, Drawing and Painting, Crafts, Storytelling, Sports and Games, Teamwork, Cultural Events, National Heritage."));
+        library.add(Book.load("Kusoma", "TIE", "T415", "Tie", "Primary", "Standard 2",
+            "Kusoma (Reading) for Standard 2 develops Kiswahili reading fluency and comprehension. Builds vocabulary and critical thinking through engaging stories and exercises.<br><br>Topics: Kusoma kwa Sauti, Ufahamu wa Kusoma, Msamiati, Sarufi, Kuandika Sentensi, Kusimulia Hadithi, Mashairi, Utambuzi wa Herufi."));
+        library.add(Book.load("Learn English", "TIE", "T416", "Tie", "Primary", "Standard 2",
+            "Learn English for Standard 2 builds English vocabulary, grammar, and communication skills. Uses songs, stories, dialogues, and fun activities.<br><br>Topics: Greetings and Introductions, Family and Friends, Food and Animals, Colours and Numbers, Classroom Objects, Simple Grammar, Reading Comprehension, Writing Sentences."));
+        library.add(Book.load("Writing", "TIE", "T417", "Tie", "Primary", "Standard 2",
+            "Writing for Standard 2 develops handwriting skills and introduces sentence composition, punctuation, and creative writing. Progressive exercises build writing confidence.<br><br>Topics: Letter Formation, Word Writing, Sentence Writing, Punctuation, Spelling, Creative Writing, Handwriting Practice, Paragraph Writing."));
+
+        // ── Primary / Standard 2 Books (Kiswahili Medium) ──
+        library.add(Book.load("Kuhesabu (Kiswahili Medium Schools)", "TIE", "T418", "Tie", "Primary", "Standard 2",
+            "Kuhesabu kwa Shule za Msingi Darasa la Pili (Kiswahili Medium Schools) hujenga dhana za namba, kujumlisha, kutoa, na kuzidisha. Kinatumia shughuli za vitendo na mifano kutoka maisha halisi.<br><br>Topics: Kutambua Namba 1-1000, Kujumlisha na Kutoa, Kuzidisha na Kugawanya, Vipimo, Saa na Kalenda, Pesa, Maumbo na Mfuatano."));
+        library.add(Book.load("Afya na Mazingira (Kiswahili Medium Schools)", "TIE", "T419", "Tie", "Primary", "Standard 2",
+            "Afya na Mazingira kwa Shule za Msingi Darasa la Pili (Kiswahili Medium Schools) hufundisha afya binafsi, lishe, usalama, na utunzaji wa mazingira.<br><br>Topics: Usafi wa Mwili, Lishe na Virutubisho, Usalama Nyumbani na Shuleni, Mwili wa Binadamu, Mimea na Wanyama, Hali ya Hewa, Maji na Taka."));
+        library.add(Book.load("Utamaduni Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T420", "Tie", "Primary", "Standard 2",
+            "Utamaduni Sanaa na Michezo kwa Shule za Msingi Darasa la Pili (Kiswahili Medium Schools) huendeleza uelewa wa utamaduni, sanaa, na michezo.<br><br>Topics: Nyimbo na Ngoma za Jadi, Kuchora na Kupaka Rangi, Ufundi, Hadithi, Michezo na Sanaa, Ushirikiano, Sherehe za Kitamaduni."));
+        library.add(Book.load("Kusoma (Kiswahili Medium Schools)", "TIE", "T421", "Tie", "Primary", "Standard 2",
+            "Kusoma kwa Shule za Msingi Darasa la Pili (Kiswahili Medium Schools) huendeleza stadi za kusoma kwa Kiswahili. Huunda ufasaha, ufahamu, na fikra makini kupitia hadithi na mazoezi.<br><br>Topics: Kusoma kwa Sauti, Ufahamu wa Kusoma, Msamiati, Sarufi, Kuandika Sentensi, Kusimulia Hadithi, Mashairi."));
+        library.add(Book.load("Kuandika (Kiswahili Medium Schools)", "TIE", "T422", "Tie", "Primary", "Standard 2",
+            "Kuandika kwa Shule za Msingi Darasa la Pili (Kiswahili Medium Schools) huendeleza stadi za uandishi, uundaji wa herufi na utungaji. Mazoezi ya mfululizo hujenga ujasiri wa uandishi.<br><br>Topics: Uundaji wa Herufi, Kuandika Maneno, Kuandika Sentensi, Uakifishaji, Tahajia, Uandishi wa Buni, Mazoezi ya Mwandiko."));
+        library.add(Book.load("Learn English (Kiswahili Medium Schools)", "TIE", "T423", "Tie", "Primary", "Standard 2",
+            "Learn English for Standard 2 (Kiswahili Medium Schools) builds English vocabulary, grammar, and communication skills. Uses songs, stories, dialogues, and fun activities.<br><br>Topics: Greetings and Introductions, Family and Friends, Food and Animals, Colours and Numbers, Classroom Objects, Simple Grammar, Reading Comprehension, Writing Sentences."));
+
+        // ── Primary / Standard 3 Books (English Medium) ──
+        library.add(Book.load("English", "TIE", "T424", "Tie", "Primary", "Standard 3",
+            "English for Standard 3 develops reading, writing, speaking and listening skills. Builds vocabulary, grammar, and communication through stories, dialogues, and fun activities.<br><br>Topics: Reading Comprehension, Vocabulary Building, Grammar and Punctuation, Creative Writing, Speaking and Listening, Spelling, Sentence Structure, Poetry."));
+        library.add(Book.load("Arts and Sports", "TIE", "T425", "Tie", "Primary", "Standard 3",
+            "Arts and Sports for Standard 3 explores creative arts, traditional culture, and physical education. Students develop skills in drawing, music, dance, crafts, and sports.<br><br>Topics: Drawing and Painting, Traditional Music and Dance, Crafts and Sculpture, Sports and Games, Drama and Performance, Cultural Heritage, Teamwork and Leadership."));
+        library.add(Book.load("Geography and the Environment", "TIE", "T426", "Tie", "Primary", "Standard 3",
+            "Geography and the Environment for Standard 3 introduces physical and human geography, weather, and environmental conservation. Uses maps, diagrams, and practical activities.<br><br>Topics: Maps and Directions, Weather and Climate, Landforms, Water Bodies, Plants and Animals, Environmental Conservation, Natural Resources, Our District and Region."));
+        library.add(Book.load("Mathematics", "TIE", "T427", "Tie", "Primary", "Standard 3",
+            "Mathematics for Standard 3 builds on number operations, introduces multiplication and division, fractions, and problem-solving. Uses real-life examples and engaging exercises.<br><br>Topics: Whole Numbers 1-100,000, Addition and Subtraction, Multiplication and Division, Fractions, Decimals, Measurements, Geometry, Time and Calendar, Money Transactions."));
+        library.add(Book.load("Science", "TIE", "T428", "Tie", "Primary", "Standard 3",
+            "Science for Standard 3 explores living things, matter, energy, and the environment. Hands-on activities develop scientific curiosity and thinking skills.<br><br>Topics: Living and Non-Living Things, Human Body Systems, Plants, Animals, Matter and Materials, Energy and Light, Sound, Force and Motion, Soil, Water and Air."));
+
+        // ── Primary / Standard 3 Books (Kiswahili Medium) ──
+        library.add(Book.load("Hisabati (Kiswahili Medium Schools)", "TIE", "T429", "Tie", "Primary", "Standard 3",
+            "Hisabati kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) hujenga dhana za namba, kuzidisha, kugawanya, na sehemu. Kinatumia mifano halisi na mazoezi shirikishi.<br><br>Topics: Namba 1-100,000, Kujumlisha na Kutoa, Kuzidisha na Kugawanya, Sehemu na Desimali, Vipimo, Jiometri, Saa na Kalenda, Pesa na Biashara."));
+        library.add(Book.load("Jiografia na Mazingira (Kiswahili Medium Schools)", "TIE", "T430", "Tie", "Primary", "Standard 3",
+            "Jiografia na Mazingira kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) hufundisha jiografia ya kimwili na ya binadamu, hali ya hewa, na uhifadhi wa mazingira.<br><br>Topics: Ramani na Maelekezo, Hali ya Hewa na Tabianchi, Maumbo ya Ardhi, Mimea na Wanyama, Uhifadhi wa Mazingira, Maliasili, Wilaya na Mkoa Wetu."));
+        library.add(Book.load("Kiswahili (Kiswahili Medium Schools)", "TIE", "T431", "Tie", "Primary", "Standard 3",
+            "Kiswahili kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) huendeleza stadi za lugha, kusoma, kuandika, na kuzungumza. Hukuza msamiati na ufahamu kupitia hadithi na mashairi.<br><br>Topics: Kusoma kwa Ufahamu, Msamiati na Sarufi, Kuandika Insha, Ushairi, Kusoma kwa Sauti, Mazungumzo, Matumizi ya Kamusi."));
+        library.add(Book.load("Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T432", "Tie", "Primary", "Standard 3",
+            "Sanaa na Michezo kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) huendeleza ubunifu, utamaduni, na elimu ya mwili. Wanafunzi hujifunza kuchora, muziki, michezo, na ufundi.<br><br>Topics: Kuchora na Kupaka Rangi, Muziki na Ngoma za Jadi, Michezo na Sanaa, Ufundi na Sanamu, Maonyesho, Utamaduni na Mila."));
+        library.add(Book.load("Sayansi (Kiswahili Medium Schools)", "TIE", "T433", "Tie", "Primary", "Standard 3",
+            "Sayansi kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) hufundisha viumbe hai, vitu, nishati na mazingira. Shughuli za vitendo huendeleza udadisi wa kisayansi.<br><br>Topics: Viumbe Hai na Visivyo Hai, Mwili wa Binadamu, Mimea na Wanyama, Vitu na Nyenzo, Nishati na Mwanga, Sauti, Nguvu na Mwendo."));
+        library.add(Book.load("Historia ya Tanzania na Maadili (Kiswahili Medium Schools)", "TIE", "T434", "Tie", "Primary", "Standard 3",
+            "Historia ya Tanzania na Maadili kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) hufundisha historia ya Tanzania, uraia, na maadili. Huunda utambulisho wa kitaifa na maadili mema.<br><br>Topics: Historia ya Tanzania, Makabila na Utamaduni, Uraia na Demokrasia, Maadili na Tabia Njema, Haki na Wajibu, Ushirikiano, Utunzaji wa Mali ya Umma."));
+        library.add(Book.load("Kichina (Kiswahili Medium Schools)", "TIE", "T435", "Tie", "Primary", "Standard 3",
+            "Kichina kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) huanzisha lugha ya Kichina, herufi, msamiati, na mazungumzo ya msingi. Hutumia nyimbo, picha, na mazoezi shirikishi.<br><br>Topics: Herufi na Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa China, Sheng na Kauli."));
+        library.add(Book.load("French (Kiswahili Medium Schools)", "TIE", "T436", "Tie", "Primary", "Standard 3",
+            "Bonjour Les Amis! French for Standard 3 (Kiswahili Medium Schools) introduces basic French language, vocabulary, greetings, and cultural awareness. Uses songs, images, and fun activities.<br><br>Topics: Greetings and Introductions, Alphabet and Numbers, Colours and Shapes, Family and Friends, Food and Drinks, Classroom Objects, French Culture, Simple Conversations."));
+        library.add(Book.load("Kiarabu (Kiswahili Medium Schools)", "TIE", "T437", "Tie", "Primary", "Standard 3",
+            "Kiarabu kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) huanzisha lugha ya Kiarabu, herufi, msamiati, na mazungumzo ya msingi. Hutumia shughuli shirikishi na michezo ya lugha.<br><br>Topics: Herufi za Kiarabu, Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa Kiarabu, Sheng na Kauli, Kuandika Maneno."));
+        library.add(Book.load("Safari ya Mwili Wangu (Kiswahili Medium Schools)", "TIE", "T438", "Tie", "Primary", "Standard 3",
+            "Safari ya Mwili Wangu kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) ni kitabu cha ziada cha afya na mwili wa binadamu. Huwaongoza wanafunzi katika safari ya kujifunza mwili wao.<br><br>Topics: Mwili wa Binadamu, Mifumo ya Mwili, Afya na Usafi, Lishe, Magonjwa na Kinga, Mazoezi ya Mwili, Usalama, Huduma za Afya."));
+        library.add(Book.load("Mimi ni wa Thamani (Kiswahili Medium Schools)", "TIE", "T439", "Tie", "Primary", "Standard 3",
+            "Mimi ni wa Thamani kwa Shule za Msingi Darasa la Tatu (Kiswahili Medium Schools) ni kitabu cha stadi za maisha na maadili. Huwajenga wanafunzi kujithamini, kujiamini, na kuwa na maadili mema.<br><br>Topics: Kujithamini na Kujiamini, Maadili na Tabia Njema, Uhusiano na Wengine, Usalama Binafsi, Afya ya Akili, Kusimamia Hisia, Malengo na Ndoto."));
+
+        // ── Primary / Standard 4 Books (English Medium) ──
+        library.add(Book.load("English", "TIE", "T448", "Tie", "Primary", "Standard 4",
+            "English for Standard 4 develops reading, writing, speaking and listening skills. Builds vocabulary, grammar, and communication through stories, dialogues, and fun activities.<br><br>Topics: Reading Comprehension, Vocabulary Building, Grammar and Punctuation, Creative Writing, Speaking and Listening, Spelling, Sentence Structure, Poetry and Drama."));
+        library.add(Book.load("Mathematics", "TIE", "T449", "Tie", "Primary", "Standard 4",
+            "Mathematics for Standard 4 builds on number operations, multiplication, division, fractions, and geometry. Uses real-life examples and problem-solving exercises.<br><br>Topics: Whole Numbers 1-1,000,000, Addition and Subtraction, Multiplication and Division, Fractions and Decimals, Percentages, Measurements, Geometry, Time and Calendar, Money and Business."));
+        library.add(Book.load("Science", "TIE", "T450", "Tie", "Primary", "Standard 4",
+            "Science for Standard 4 explores living things, matter, energy, and the environment. Hands-on activities develop scientific curiosity and critical thinking.<br><br>Topics: Living Things and Environment, Human Body and Health, Plants and Growth, Animals and Classification, Matter and Materials, Energy and Motion, Light and Sound, Electricity."));
+        library.add(Book.load("Geography and the Environment", "TIE", "T451", "Tie", "Primary", "Standard 4",
+            "Geography and the Environment for Standard 4 introduces physical and human geography of Tanzania and the world. Uses maps, diagrams, and practical activities.<br><br>Topics: Maps and Directions, Weather and Climate, Landforms and Water Bodies, Plants and Animals, Environmental Conservation, Natural Resources, Our District and Region, Tanzania and the World."));
+        library.add(Book.load("Arts and Sports", "TIE", "T452", "Tie", "Primary", "Standard 4",
+            "Arts and Sports for Standard 4 explores creative arts, traditional culture, and physical education. Students develop skills in drawing, music, dance, crafts, and sports.<br><br>Topics: Drawing and Painting, Traditional Music and Dance, Crafts and Sculpture, Sports and Games, Drama and Performance, Cultural Heritage, Teamwork and Leadership, Physical Fitness."));
+        library.add(Book.load("French (Kiswahili Medium Schools)", "TIE", "T453", "Tie", "Primary", "Standard 4",
+            "Bonjour les Amis! French for Standard 4 (Kiswahili Medium Schools) builds French vocabulary, grammar, and communication. Uses songs, stories, dialogues, and cultural activities.<br><br>Topics: Greetings and Introductions, Numbers and Colours, Family and Friends, Food and Drinks, School Life, French Culture, Simple Conversations, Reading and Writing."));
+
+        // ── Primary / Standard 4 Books (Kiswahili Medium) ──
+        library.add(Book.load("Kiswahili (Kiswahili Medium Schools)", "TIE", "T440", "Tie", "Primary", "Standard 4",
+            "Kiswahili kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huendeleza stadi za lugha, kusoma, kuandika, na kuzungumza. Hukuza msamiati na ufahamu kupitia hadithi na mashairi.<br><br>Topics: Kusoma kwa Ufahamu, Msamiati na Sarufi, Kuandika Insha, Ushairi, Kusoma kwa Sauti, Mazungumzo, Matumizi ya Kamusi, Fasihi Simulizi."));
+        library.add(Book.load("Hisabati (Kiswahili Medium Schools)", "TIE", "T441", "Tie", "Primary", "Standard 4",
+            "Hisabati kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) hujenga dhana za namba, kuzidisha, kugawanya, sehemu, na jiometri. Kinatumia mifano halisi na mazoezi shirikishi.<br><br>Topics: Namba 1-1,000,000, Kujumlisha na Kutoa, Kuzidisha na Kugawanya, Sehemu na Desimali, Asilimia, Vipimo, Jiometri, Saa na Kalenda, Pesa na Biashara."));
+        library.add(Book.load("Sayansi (Kiswahili Medium Schools)", "TIE", "T442", "Tie", "Primary", "Standard 4",
+            "Sayansi kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) hufundisha viumbe hai, vitu, nishati, na mazingira. Shughuli za vitendo huendeleza udadisi wa kisayansi na ujuzi wa utafiti.<br><br>Topics: Viumbe Hai na Mazingira, Mwili wa Binadamu na Afya, Mimea na Ukuaji, Wanyama na Makundi, Vitu na Nyenzo, Nishati na Mwendo, Sauti na Mwanga, Umeme."));
+        library.add(Book.load("Jiografia na Mazingira (Kiswahili Medium Schools)", "TIE", "T443", "Tie", "Primary", "Standard 4",
+            "Jiografia na Mazingira kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) hufundisha jiografia ya Tanzania na dunia, hali ya hewa, na uhifadhi wa mazingira.<br><br>Topics: Ramani na Maelekezo, Hali ya Hewa na Tabianchi, Maumbo ya Ardhi na Maji, Mimea na Wanyama, Uhifadhi wa Mazingira, Maliasili, Wilaya na Mkoa Wetu, Tanzania na Dunia."));
+        library.add(Book.load("Historia ya Tanzania na Maadili (Kiswahili Medium Schools)", "TIE", "T444", "Tie", "Primary", "Standard 4",
+            "Historia ya Tanzania na Maadili kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) hufundisha historia ya Tanzania, uraia, na maadili. Huunda utambulisho wa kitaifa na maadili mema.<br><br>Topics: Historia ya Tanzania, Makabila na Tamaduni, Uraia na Demokrasia, Maadili na Tabia Njema, Haki na Wajibu, Ushirikiano na Umoja, Utunzaji wa Mali ya Umma."));
+        library.add(Book.load("Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T445", "Tie", "Primary", "Standard 4",
+            "Sanaa na Michezo kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huendeleza ubunifu, utamaduni, na elimu ya mwili. Wanafunzi hujifunza kuchora, muziki, ngoma, michezo, na ufundi wa vitendo.<br><br>Topics: Kuchora na Kupaka Rangi, Muziki na Ngoma za Jadi, Michezo na Sanaa, Ufundi na Sanamu, Maonyesho na Tamthilia, Utamaduni na Mila, Mazoezi ya Mwili."));
+        library.add(Book.load("Kichina (Kiswahili Medium Schools)", "TIE", "T446", "Tie", "Primary", "Standard 4",
+            "Kichina kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huanzisha lugha ya Kichina, herufi, msamiati, na mazungumzo. Hutumia nyimbo, picha, na mazoezi shirikishi.<br><br>Topics: Herufi na Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo na Utamaduni, Kusoma na Kuandika, Sheng na Kauli, Mazoezi ya Lugha."));
+        library.add(Book.load("Kiarabu (Kiswahili Medium Schools)", "TIE", "T447", "Tie", "Primary", "Standard 4",
+            "Kiarabu kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huanzisha lugha ya Kiarabu, herufi, msamiati, na mazungumzo. Hutumia shughuli shirikishi na michezo ya lugha.<br><br>Topics: Herufi za Kiarabu, Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa Kiarabu, Kusoma na Kuandika, Sheng na Kauli."));
+
         // ── Flipbook URLs (TIE self-hosted, fliphtml5 fallback) ──
         flipbooks.put("T009", "https://online.fliphtml5.com/ebxst/ohok/");
         flipbooks.put("T012", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/Biology/Biology_F5.html");
@@ -574,8 +714,78 @@ public class Main {
         flipbooks.put("T253", "https://ol.tie.go.tz/uploaded_files/books//secondary/Form_One/Book-keeping_Form_One/Book-keeping for Secondary Schools Student\u2019s Book Form One.html");
         flipbooks.put("T254", "https://ol.tie.go.tz/uploaded_files/books//secondary/Form_One/Biology_Form_One/Biology_Form_One.html");
 
+        // ── Pre-Primary / Nursery flipbook URLs (fliphtml5) ──
+        flipbooks.put("T310", "https://online.fliphtml5.com/rwbnv/eoen/");
+        flipbooks.put("T311", "https://online.fliphtml5.com/rwbnv/vjku");
+        flipbooks.put("T312", "https://online.fliphtml5.com/rwbnv/wypa");
+        flipbooks.put("T313", "https://online.fliphtml5.com/rwbnv/llak");
+        flipbooks.put("T314", "https://online.fliphtml5.com/rwbnv/vdgc");
+        flipbooks.put("T315", "https://online.fliphtml5.com/rwbnv/plcv");
+
+        // ── Primary / Standard 1 flipbook URLs ──
+        flipbooks.put("T400", "https://online.fliphtml5.com/rwbnv/fvcv");
+        flipbooks.put("T401", "https://online.fliphtml5.com/rwbnv/ondo");
+        flipbooks.put("T402", "https://online.fliphtml5.com/rwbnv/dufp");
+        flipbooks.put("T403", "https://online.fliphtml5.com/rwbnv/zvcm");
+        flipbooks.put("T404", "https://online.fliphtml5.com/rwbnv/imme");
+        flipbooks.put("T405", "https://online.fliphtml5.com/rwbnv/brfw");
+        flipbooks.put("T406", "https://online.fliphtml5.com/rwbnv/uyum");
+        flipbooks.put("T407", "https://online.fliphtml5.com/rwbnv/lctl");
+        flipbooks.put("T408", "https://online.fliphtml5.com/rwbnv/egcu");
+        flipbooks.put("T409", "https://online.fliphtml5.com/rwbnv/jisk");
+        flipbooks.put("T410", "https://online.fliphtml5.com/rwbnv/zlvn");
+        flipbooks.put("T411", "https://online.fliphtml5.com/rwbnv/pncn");
+
+        // ── Primary / Standard 2 flipbook URLs ──
+        flipbooks.put("T412", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Aritmetic/Arithmetic_Std_One.html");
+        flipbooks.put("T413", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Health_n_Envir/Health_and_Environment.html");
+        flipbooks.put("T414", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Culture_Art_n_Sports/Cult_Art_Sport_Std_One.html");
+        flipbooks.put("T415", "https://ol.tie.go.tz/uploaded_files/books//primary/std2/Kusoma%20Eng%20Med/Kusoma%20English%20Medium%20DRS%202.html");
+        flipbooks.put("T416", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Learn_English/Learn_English.html");
+        flipbooks.put("T417", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Writing/Writing.html");
+        flipbooks.put("T418", "https://ol.tie.go.tz/uploaded_files/books//primary/std2/Kuhesabu/Kuhesabu%20DRS%202.html");
+        flipbooks.put("T419", "https://ol.tie.go.tz/uploaded_files/books//primary/std4/Sw/Afya_Mazingira/Afta_Mazingira_Std_2.html");
+        flipbooks.put("T420", "https://ol.tie.go.tz/uploaded_files/books//primary/std2/Utamaduni_na_Sanaa/Utamaduni%20Sanaa%20Michezo%20DRS%202.html");
+        flipbooks.put("T421", "https://ol.tie.go.tz/uploaded_files/books//primary/std2/Kusoma/Kusoma%20DRS%20II.html");
+        flipbooks.put("T422", "https://ol.tie.go.tz/uploaded_files/books//primary/std2/Kuandika/Kuandika_DRS_2.html");
+        flipbooks.put("T423", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std2/Learn_Eng_Sw/Learn_Eng_Sw.html");
+
+        // ── Primary / Standard 3 flipbook URLs ──
+        flipbooks.put("T424", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/english/flip/Index.html");
+        flipbooks.put("T425", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/ARTS%20AND%20SPORTS/FLIP/flipbook/index.html");
+        flipbooks.put("T426", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/GEAGRAPHY/FLIP/flipbook/index.html");
+        flipbooks.put("T427", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/MATHEMATICS/Updated/Maths_Std_3.html");
+        flipbooks.put("T428", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/SCIENCE/FLIP/flipbook/index.html");
+        flipbooks.put("T429", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/HISABATI/FLIP/flipbook/index.html");
+        flipbooks.put("T430", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/JIOGRAFIA%20NA%20MAZINGIRA/FLIP/flipbook/index.html");
+        flipbooks.put("T431", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/KISWAHILI/FLIP/index.html");
+        flipbooks.put("T432", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/SANAA%20NA%20MICHEZO/FLIP/flipbook/index.html");
+        flipbooks.put("T433", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/SAYANSI/FLIP/flipbook/index.html");
+        flipbooks.put("T434", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/HISTORIA%20YA%20TZ/FLIP/flipbook/index.html");
+        flipbooks.put("T435", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/CHINESE/FLIP/flipbook/index.html");
+        flipbooks.put("T436", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/FRENCH/FLIP/flipbook/index.html");
+        flipbooks.put("T437", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/KIARABU/FLIP/flipbook/index.html");
+        flipbooks.put("T438", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/Safari%20ya%20Mwili%20Wangu/Safari%20ya%20Mwili%20wangu.html");
+        flipbooks.put("T439", "https://ol.tie.go.tz/uploaded_files/books//primary/std3/Mimi%20ni%20wa%20Thamani/Mimi%20ni%20wa%20Thamani.html");
+        flipbooks.put("T440", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Kiswahili/Kiswahili_Std_4.html");
+        flipbooks.put("T441", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Hisabati/Hisabati_Std_4.html");
+        flipbooks.put("T442", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Sayansi_Drs_4/Sayansi_Drs_4.html");
+        flipbooks.put("T443", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Jiogefia_Mazingira/Jiografia_Mazingira.html");
+        flipbooks.put("T444", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Hist_Maadili/Historiayatznamaadili.html");
+        flipbooks.put("T445", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Sanaa_Michezo/Sanaa_Michezo_Drs_4.html");
+        flipbooks.put("T446", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Kichina/Kichina_Drs_4.html");
+        flipbooks.put("T447", "https://ol.tie.go.tz/uploaded_files/books//primary/std4/Sw/Kiarabu/Kiarabu_Drs_4.html");
+        flipbooks.put("T448", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/English/English_Std_4.html");
+        flipbooks.put("T449", "https://ol.tie.go.tz/uploaded_files/books//primary/std4/Eng/Mathematics/Mathematics_Std_4.html");
+        flipbooks.put("T450", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Science/Science_Std_4.html");
+        flipbooks.put("T451", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Geography/Geography_n_Environ_Std_4.html");
+        flipbooks.put("T452", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Art_n_Sports/Art_n_Sports_Std_4.html");
+        flipbooks.put("T453", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/French/French_Std_4.html");
+
         users.add(new User("admin", "admin123", "admin"));
         loadUsers();
+        loadRequests();
+        loadBorrows();
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7860"));
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -586,6 +796,7 @@ public class Main {
         server.createContext("/dashboard", exchange -> { try { handleDashboard(exchange); } catch (Exception e) { e.printStackTrace(); }});
         server.createContext("/admin", exchange -> { try { handleAdmin(exchange); } catch (Exception e) { e.printStackTrace(); }});
         server.createContext("/read", exchange -> { try { handleRead(exchange); } catch (Exception e) { e.printStackTrace(); }});
+        server.createContext("/forgot-password", exchange -> { try { handleForgotPassword(exchange); } catch (Exception e) { e.printStackTrace(); }});
 
         System.out.println("Server: http://localhost:" + port);
         System.out.println("LAN:    http://" + java.net.InetAddress.getLocalHost().getHostAddress() + ":" + port);
@@ -618,6 +829,54 @@ public class Main {
             }
         } catch (Exception e) {
             System.err.println("Failed to load users: " + e.getMessage());
+        }
+    }
+
+    // ── Requests / Borrows persistence ─────────────────────
+
+    @SuppressWarnings("unchecked")
+    private static void loadRequests() {
+        if (!Files.exists(REQUESTS_FILE)) return;
+        try {
+            try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(REQUESTS_FILE))) {
+                List<Request> saved = (List<Request>) ois.readObject();
+                requests.addAll(saved);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load requests: " + e.getMessage());
+        }
+    }
+
+    private static void saveRequests() {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(REQUESTS_FILE))) {
+                oos.writeObject(requests);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to save requests: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void loadBorrows() {
+        if (!Files.exists(BORROWS_FILE)) return;
+        try {
+            try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(BORROWS_FILE))) {
+                List<BorrowRecord> saved = (List<BorrowRecord>) ois.readObject();
+                borrows.addAll(saved);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load borrows: " + e.getMessage());
+        }
+    }
+
+    private static void saveBorrows() {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(BORROWS_FILE))) {
+                oos.writeObject(borrows);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to save borrows: " + e.getMessage());
         }
     }
 
@@ -829,14 +1088,14 @@ footer a:hover{color:#667eea}
   <div class="hero-content">
     <div class="badge">&#9733; Tanzania Institute of Education</div>
     <h1>Your Digital<br><span>Library</span> Awaits</h1>
-    <p>Access hundreds of TIE textbooks online — anytime, anywhere. Read Form 1 to Form 6 books for free.</p>
+    <p>Access hundreds of TIE textbooks online — anytime, anywhere. Read Pre-Primary to Form 6 books for free.</p>
     <div class="hero-btns">
       <a href="/login" class="btn-primary">Get Started &#8594;</a>
       <a href="#features" class="btn-secondary">Learn More</a>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-num">160+</div><div class="stat-label">Books</div></div>
-      <div class="stat"><div class="stat-num">1-6</div><div class="stat-label">Forms</div></div>
+      <div class="stat"><div class="stat-num">230+</div><div class="stat-label">Books</div></div>
+      <div class="stat"><div class="stat-num">PrePrimary - Form 6</div><div class="stat-label">Classes</div></div>
       <div class="stat"><div class="stat-num">&#8734;</div><div class="stat-label">Free Access</div></div>
     </div>
   </div>
@@ -878,7 +1137,9 @@ footer a:hover{color:#667eea}
             String username = form.getOrDefault("username", "").trim();
             String password = form.getOrDefault("password", "").trim();
             String phone = form.getOrDefault("phone", "").trim();
-            if (username.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+            String secQ = form.getOrDefault("securityQuestion", "").trim();
+            String secA = form.getOrDefault("securityAnswer", "").trim();
+            if (username.isEmpty() || password.isEmpty() || phone.isEmpty() || secQ.isEmpty() || secA.isEmpty()) {
                 sendHtml(exchange, generateSignupPage("<span class='warn-icon'>&#9888;&#65039;</span><span><strong>Incomplete Form</strong><br>Please fill in all fields to create your account.</span>"));
                 return;
             }
@@ -887,7 +1148,7 @@ footer a:hover{color:#667eea}
                     sendHtml(exchange, generateSignupPage("Username already taken."));
                     return;
                 }
-            users.add(new User(username, password, "user", phone));
+            users.add(new User(username, password, "user", phone, secQ, secA));
             saveUsers();
             redirect(exchange, "/login?signup=1");
             return;
@@ -905,16 +1166,18 @@ footer a:hover{color:#667eea}
             *{box-sizing:border-box;margin:0;padding:0}
             body{font-family:'Inter','Segoe UI',sans-serif;background:#0b0b1a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
             body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600') center/cover no-repeat;filter:brightness(.12) blur(3px);pointer-events:none}
-            .box{background:rgba(18,18,40,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:50px 40px;box-shadow:0 25px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);width:100%;max-width:400px;text-align:center;position:relative;z-index:1}}
+            .box{background:rgba(18,18,40,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:50px 40px;box-shadow:0 25px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);width:100%;max-width:400px;text-align:center;position:relative;z-index:1}
             .box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,#667eea,#764ba2,transparent)}
             .logo{font-size:44px;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 12px rgba(102,126,234,.3))}
             h2{color:#e8e8ff;margin-bottom:4px;font-size:1.5em;font-weight:700;letter-spacing:-.5px}
             .sub{color:rgba(255,255,255,.4);font-size:.9em;margin-bottom:28px}
             .input-group{position:relative;margin-bottom:14px}
             .input-group .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.25);font-size:16px;pointer-events:none}
-            .input-group input{width:100%;padding:14px 16px 14px 46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:14px;transition:all .3s;background:rgba(255,255,255,.04);color:#e0e0f0;outline:none}
+            .input-group input,.input-group select{width:100%;padding:14px 16px 14px 46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:14px;transition:all .3s;background:rgba(255,255,255,.04);color:#e0e0f0;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer}
             .input-group input::placeholder{color:rgba(255,255,255,.2)}
-            .input-group input:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.06);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+            .input-group input:focus,.input-group select:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.06);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+            .input-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='%238888cc'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+            .input-group select option{background:#1a1a3a;color:#e0e0f0}
             .btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);transition:all .3s;margin-top:8px;letter-spacing:.3px}
             .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}
             .btn:active{transform:translateY(0)}
@@ -941,6 +1204,8 @@ footer a:hover{color:#667eea}
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
             <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='spwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('spwd',this)">&#128065;</span></div>
             <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' id='sphone' placeholder='Phone number' required></div>
+            <div class="input-group"><span class="icon">&#128220;</span><select name='securityQuestion' required><option value=''>Select a security question...</option><option value='What is your mothers maiden name?'>What is your mother's maiden name?</option><option value='What was the name of your first pet?'>What was the name of your first pet?</option><option value='What city were you born in?'>What city were you born in?</option><option value='What is your favorite book?'>What is your favorite book?</option><option value='What is the name of your primary school?'>What is the name of your primary school?</option></select></div>
+            <div class="input-group"><span class="icon">&#128221;</span><input type='text' name='securityAnswer' placeholder='Security answer' required></div>
             <button type='submit' class='btn'>Sign Up</button>
             </form>
             <div class="footer">
@@ -966,14 +1231,15 @@ footer a:hover{color:#667eea}
                     return;
                 }
             }
-            sendHtml(exchange, generateLoginPage("Invalid credentials.", false));
+            sendHtml(exchange, generateLoginPage("Invalid credentials.", false, false));
             return;
         }
         boolean justRegistered = "1".equals(getQueryParam(exchange, "signup"));
-        sendHtml(exchange, generateLoginPage(null, justRegistered));
+        boolean justReset = "1".equals(getQueryParam(exchange, "reset"));
+        sendHtml(exchange, generateLoginPage(null, justRegistered, justReset));
     }
 
-    private static String generateLoginPage(String error, boolean registered) {
+    private static String generateLoginPage(String error, boolean registered, boolean justReset) {
         StringBuilder h = new StringBuilder();
         h.append("""
             <!DOCTYPE html>
@@ -991,9 +1257,11 @@ footer a:hover{color:#667eea}
             .sub{color:rgba(255,255,255,.4);font-size:.9em;margin-bottom:28px}
             .input-group{position:relative;margin-bottom:14px}
             .input-group .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.25);font-size:16px;pointer-events:none}
-            .input-group input{width:100%;padding:14px 16px 14px 46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:14px;transition:all .3s;background:rgba(255,255,255,.04);color:#e0e0f0;outline:none}
+            .input-group input,.input-group select{width:100%;padding:14px 16px 14px 46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:14px;transition:all .3s;background:rgba(255,255,255,.04);color:#e0e0f0;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer}
             .input-group input::placeholder{color:rgba(255,255,255,.2)}
-            .input-group input:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.06);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+            .input-group input:focus,.input-group select:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.06);box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+            .input-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='%238888cc'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+            .input-group select option{background:#1a1a3a;color:#e0e0f0}
             .btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);transition:all .3s;margin-top:8px;letter-spacing:.3px}
             .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}
             .btn:active{transform:translateY(0)}
@@ -1019,6 +1287,7 @@ footer a:hover{color:#667eea}
             """);
         if (error != null) h.append("<div class='err'>").append(error).append("</div>");
         if (registered) h.append("<div class='suc'><span class='suc-icon'>&#9989;</span><span><strong>Account Created!</strong><br>Your account was created successfully. Please sign in.</span></div>");
+        if (justReset) h.append("<div class='suc'><span class='suc-icon'>&#9989;</span><span><strong>Password Reset!</strong><br>Your password has been reset successfully. Please sign in.</span></div>");
         h.append("""
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
@@ -1027,6 +1296,7 @@ footer a:hover{color:#667eea}
             </form>
             <div class="footer">
             <a href='/signup'>No account? Sign up</a>
+            <a href='/forgot-password' style='font-size:.82em;color:rgba(255,255,255,.25)'>Forgot Password?</a>
             </div>
             </div></body></html>
             """);
@@ -1038,6 +1308,124 @@ footer a:hover{color:#667eea}
     private static void handleLogout(HttpExchange exchange) throws Exception {
         clearSession(exchange);
         redirect(exchange, "/login");
+    }
+
+    // ── Forgot Password ────────────────────────────────────
+
+    private static void handleForgotPassword(HttpExchange exchange) throws Exception {
+        if ("POST".equals(exchange.getRequestMethod())) {
+            Map<String, String> form = readForm(exchange);
+            String username = form.getOrDefault("username", "").trim();
+            String answer = form.getOrDefault("answer", "").trim();
+            String newPass = form.getOrDefault("newPassword", "").trim();
+
+            // Step 2: verify security answer and set new password
+            if (!answer.isEmpty() && !newPass.isEmpty()) {
+                User target = null;
+                for (User u : users) {
+                    if (u.getUsername().equals(username)) {
+                        target = u;
+                        break;
+                    }
+                }
+                if (target == null || target.getSecurityAnswer().isEmpty()) {
+                    sendHtml(exchange, generateForgotPasswordPage(null, "User not found or no security question set.", false));
+                    return;
+                }
+                if (!target.getSecurityAnswer().equalsIgnoreCase(answer)) {
+                    sendHtml(exchange, generateForgotPasswordPage(username, "Incorrect answer. Please try again.", false));
+                    return;
+                }
+                users.remove(target);
+                users.add(new User(username, newPass, target.getRole(), target.getPhoneNumber(), target.getSecurityQuestion(), target.getSecurityAnswer()));
+                saveUsers();
+                redirect(exchange, "/login?reset=1");
+                return;
+            }
+
+            // Step 1: show security question
+            if (!username.isEmpty()) {
+                User target = null;
+                for (User u : users) {
+                    if (u.getUsername().equals(username)) {
+                        target = u;
+                        break;
+                    }
+                }
+                if (target == null || target.getSecurityQuestion().isEmpty()) {
+                    sendHtml(exchange, generateForgotPasswordPage(null, "User not found or no security question set.", false));
+                    return;
+                }
+                sendHtml(exchange, generateForgotPasswordPage(username, target.getSecurityQuestion(), true));
+                return;
+            }
+
+            sendHtml(exchange, generateForgotPasswordPage(null, null, false));
+            return;
+        }
+        sendHtml(exchange, generateForgotPasswordPage(null, null, false));
+    }
+
+    private static String generateForgotPasswordPage(String username, String message, boolean isQuestion) {
+        StringBuilder h = new StringBuilder();
+        h.append("<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>");
+        h.append("<title>Forgot Password &mdash; eLibrary System</title>");
+        h.append("<style>");
+        h.append("*{box-sizing:border-box;margin:0;padding:0}");
+        h.append("body{font-family:'Inter','Segoe UI',sans-serif;background:#0b0b1a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}");
+        h.append("body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600') center/cover no-repeat;filter:brightness(.15) blur(3px);pointer-events:none}");
+        h.append(".box{background:rgba(18,18,40,.85);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:50px 40px;box-shadow:0 25px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);width:100%;max-width:420px;text-align:center;position:relative}");
+        h.append(".box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,#667eea,#764ba2,transparent)}");
+        h.append(".logo{font-size:44px;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 12px rgba(102,126,234,.3))}");
+        h.append("h2{color:#e8e8ff;margin-bottom:4px;font-size:1.5em;font-weight:700;letter-spacing:-.5px}");
+        h.append(".sub{color:rgba(255,255,255,.4);font-size:.9em;margin-bottom:28px}");
+        h.append(".input-group{position:relative;margin-bottom:14px}");
+        h.append(".input-group .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.25);font-size:16px;pointer-events:none}");
+        h.append(".input-group input,.input-group select{width:100%;padding:14px 16px 14px 46px;border:1px solid rgba(255,255,255,.08);border-radius:12px;font-size:14px;transition:all .3s;background:rgba(255,255,255,.04);color:#e0e0f0;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer}");
+        h.append(".input-group input::placeholder{color:rgba(255,255,255,.2)}");
+        h.append(".input-group input:focus,.input-group select:focus{border-color:rgba(102,126,234,.5);background:rgba(102,126,234,.06);box-shadow:0 0 0 3px rgba(102,126,234,.1)}");
+        h.append(".input-group select{background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='%238888cc'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}");
+        h.append(".input-group select option{background:#1a1a3a;color:#e0e0f0}");
+        h.append(".btn{width:100%;padding:14px;border:none;border-radius:12px;cursor:pointer;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);transition:all .3s;margin-top:8px;letter-spacing:.3px}");
+        h.append(".btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}");
+        h.append(".btn:active{transform:translateY(0)}");
+        h.append(".msg{color:#f1c40f;background:rgba(241,196,15,.1);border:1px solid rgba(241,196,15,.2);padding:14px 18px;border-radius:12px;margin-bottom:20px;font-size:.88em;text-align:left;line-height:1.5}");
+        h.append(".err{color:#ff6b6b;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2);padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:.85em;text-align:left}");
+        h.append(".link{display:block;margin-top:18px;color:rgba(255,255,255,.35);font-size:.85em;text-decoration:none;transition:color .25s}");
+        h.append(".link:hover{color:#667eea}");
+        h.append("@media(max-width:480px){.box{padding:35px 24px;border-radius:16px}}");
+        h.append("</style></head><body>");
+
+        if (username != null && isQuestion) {
+            // Show security question
+            h.append("<div class='box'><span class='logo'>&#128273;</span>");
+            h.append("<h2>Reset Password</h2>");
+            h.append("<p class='sub'>Answer your security question</p>");
+            h.append("<div class='msg'><strong>Security Question:</strong><br>").append(message).append("</div>");
+            h.append("<form method='POST'>");
+            h.append("<input type='hidden' name='username' value='").append(username).append("'>");
+            h.append("<div class='input-group'><span class='icon'>&#128221;</span><input type='text' name='answer' placeholder='Your answer' required></div>");
+            h.append("<div class='input-group'><span class='icon'>&#128273;</span><input type='password' name='newPassword' placeholder='New password' required></div>");
+            h.append("<button type='submit' class='btn'>Reset Password</button>");
+            h.append("</form>");
+            h.append("<a href='/login' class='link'>&larr; Back to Login</a>");
+            h.append("</div>");
+        } else {
+            // Show username form
+            h.append("<div class='box'><span class='logo'>&#128273;</span>");
+            h.append("<h2>Forgot Password</h2>");
+            h.append("<p class='sub'>Enter your username to reset your password</p>");
+            if (message != null) h.append("<div class='err'>").append(message).append("</div>");
+            h.append("<form method='POST'>");
+            h.append("<div class='input-group'><span class='icon'>&#128100;</span><input type='text' name='username' placeholder='Username' required></div>");
+            h.append("<button type='submit' class='btn'>Continue</button>");
+            h.append("</form>");
+            h.append("<a href='/login' class='link'>&larr; Back to Login</a>");
+            h.append("</div>");
+        }
+
+        h.append("</body></html>");
+        return h.toString();
     }
 
     // ── Dashboard (users) ──────────────────────────────────
@@ -1054,11 +1442,15 @@ footer a:hover{color:#667eea}
 
             if ("return".equals(action)) {
                 borrows.removeIf(br -> br.isbn.equals(isbn) && br.username.equals(user));
+                saveBorrows();
             } else if ("cancel".equals(action)) {
                 requests.removeIf(r -> r.getIsbn().equals(isbn) && r.getUsername().equals(user) && "pending".equals(r.getStatus()));
+                saveRequests();
             } else {
-                if (findBook(isbn) != null)
+                if (findBook(isbn) != null) {
                     requests.add(new Request(isbn, user));
+                    saveRequests();
+                }
             }
             redirect(exchange, "/dashboard");
             return;
@@ -1137,7 +1529,11 @@ footer a:hover{color:#667eea}
         h.append(".topbar .btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(102,126,234,.35);color:#fff}");
         h.append(".empty{text-align:center;padding:35px;color:rgba(255,255,255,.2);font-size:.9em}");
         h.append(".filter-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}");
-        h.append(".filter-row select{flex:1;min-width:0}");
+        h.append(".filter-row select{flex:1;min-width:140px}");
+        h.append("@media(max-width:500px){.filter-row{gap:8px}.filter-row select{flex:1 1 100%;min-width:0;font-size:13px;padding:11px 14px}}");
+        h.append(".table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}");
+        h.append(".table-wrap table{min-width:480px}");
+        h.append("@media(max-width:500px){.table-wrap table{min-width:0;width:100%}.table-wrap table,.table-wrap tbody,.table-wrap tr{display:block}.table-wrap th{display:none}.table-wrap td{display:grid;grid-template-columns:80px 1fr;gap:4px 10px;padding:10px 12px;align-items:center}.table-wrap td:before{content:attr(data-label);font-weight:600;color:#8888bb;font-size:.78em;text-transform:uppercase;letter-spacing:.5px}.table-wrap tr+tr{border-top:1px solid rgba(255,255,255,.05)}}");
         h.append(".form-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}");
         h.append(".form-label{color:#c8c8e8;font-size:.9em;font-weight:600;margin-bottom:8px;display:block}");
         h.append(".form-group{flex:1;min-width:210px}");
@@ -1154,9 +1550,11 @@ footer a:hover{color:#667eea}
         }
         h.append("];");
         h.append("function resetFilters(keepType){if(!keepType){document.getElementById('ftype').value=''}document.getElementById('flevel').innerHTML='<option value=\"\">Select level first...</option>';document.getElementById('flevel').disabled=true;document.getElementById('fclass').innerHTML='<option value=\"\">Select class first...</option>';document.getElementById('fclass').disabled=true;filterBooks()}");
-        h.append("function populateLevel(){var t=document.getElementById('ftype').value;if(!t){resetFilters(true);return}var lv=document.getElementById('flevel');lv.innerHTML='<option value=\"\">Select level...</option>';lv.disabled=false;var seen={};books.forEach(function(b){if(b.tp===t&&!seen[b.l]){seen[b.l]=true;lv.innerHTML+='<option value=\"'+b.l+'\">'+b.l+'</option>'}});lv.value='';document.getElementById('fclass').innerHTML='<option value=\"\">Select class first...</option>';document.getElementById('fclass').disabled=true;filterBooks()}");
-        h.append("function populateClass(){var t=document.getElementById('ftype').value;var lv=document.getElementById('flevel').value;if(!lv){document.getElementById('fclass').innerHTML='<option value=\"\">Select class first...</option>';document.getElementById('fclass').disabled=true;filterBooks();return}var cls=document.getElementById('fclass');cls.innerHTML='<option value=\"\">Select class...</option>';cls.disabled=false;var seen={};books.forEach(function(b){if(b.tp===t&&b.l===lv&&!seen[b.c]){seen[b.c]=true;cls.innerHTML+='<option value=\"'+b.c+'\">'+b.c+'</option>'}});filterBooks()}");
-        h.append("function filterBooks(){var t=document.getElementById('ftype').value;var lv=document.getElementById('flevel').value;var cl=document.getElementById('fclass').value;if(!t&&!lv&&!cl){document.getElementById('btable').innerHTML='<tr><td colspan=3 class=empty>Select a filter above to browse books</td></tr>';return}var html='';books.forEach(function(b){if((!t||b.tp===t)&&(!lv||b.l===lv)&&(!cl||b.c===cl)){html+='<tr><td>'+b.i+'</td><td>'+b.t+'</td><td>'+b.a+'</td></tr>'}});document.getElementById('btable').innerHTML=html||'<tr><td colspan=3 class=empty>No books found</td></tr>';populateRequest()}");
+        h.append("var levelOrder=['Pre-Primary','Primary','Secondary','A-Level','Novel','All'];");
+h.append("function populateLevel(){var t=document.getElementById('ftype').value;if(!t){resetFilters(true);return}var lv=document.getElementById('flevel');lv.innerHTML='<option value=\"\">Select level...</option>';lv.disabled=false;var seen={};books.forEach(function(b){if(b.tp===t)seen[b.l]=true});levelOrder.forEach(function(l){if(seen[l])lv.innerHTML+='<option value=\"'+l+'\">'+l+'</option>'});lv.value='';document.getElementById('fclass').innerHTML='<option value=\"\">Select class first...</option>';document.getElementById('fclass').disabled=true;filterBooks()}");
+        h.append("var classOrder={ 'Nursery':0,'Standard 1':1,'Standard 2':2,'Standard 3':3,'Standard 4':4,'Standard 5':5,'Standard 6':6,'Standard 7':7,'Play':8,'Novel':9,'Form 1':10,'Form 2':11,'Form 3':12,'Form 4':13,'Form 5':14,'Form 6':15 };");
+h.append("function populateClass(){var t=document.getElementById('ftype').value;var lv=document.getElementById('flevel').value;if(!lv){document.getElementById('fclass').innerHTML='<option value=\"\">Select class first...</option>';document.getElementById('fclass').disabled=true;filterBooks();return}var cls=document.getElementById('fclass');cls.innerHTML='<option value=\"\">Select class...</option>';cls.disabled=false;var seen={};books.forEach(function(b){if(b.tp===t&&b.l===lv&&!seen[b.c]){seen[b.c]=true}});var sorted=Object.keys(seen).sort(function(a,b){return(classOrder[a]||99)-(classOrder[b]||99)});sorted.forEach(function(c){cls.innerHTML+='<option value=\"'+c+'\">'+c+'</option>'});filterBooks()}");
+        h.append("function filterBooks(){var t=document.getElementById('ftype').value;var lv=document.getElementById('flevel').value;var cl=document.getElementById('fclass').value;if(!t&&!lv&&!cl){document.getElementById('btable').innerHTML='<tr><td colspan=3 class=empty>Select a filter above to browse books</td></tr>';return}var html='';books.forEach(function(b){if((!t||b.tp===t)&&(!lv||b.l===lv)&&(!cl||b.c===cl)){html+='<tr><td data-label=\"ISBN\">'+b.i+'</td><td data-label=\"Title\">'+b.t+'</td><td data-label=\"Author\">'+b.a+'</td></tr>'}});document.getElementById('btable').innerHTML=html||'<tr><td colspan=3 class=empty>No books found</td></tr>';populateRequest()}");
 h.append("function populateRequest(){var t=document.getElementById('ftype').value;var lv=document.getElementById('flevel').value;var cl=document.getElementById('fclass').value;var sel=document.getElementById('reqisbn');sel.innerHTML='<option value=\"\">Request book...</option>';books.forEach(function(b){if((!t||b.tp===t)&&(!lv||b.l===lv)&&(!cl||b.c===cl)){sel.innerHTML+='<option value=\"'+b.i+'\">'+b.t+'</option>'}})}");
 h.append("populateRequest()");
         
@@ -1187,23 +1585,23 @@ h.append("<select id='fclass' onchange='filterBooks()' disabled><option value=''
 h.append("<select name='isbn' id='reqisbn' form='reqform' required><option value=''>Request book...</option></select>");
 h.append("<button type='submit' class='btn btn-pri' style='padding:10px 18px;font-size:12px' form='reqform'>Request</button></div>");
 h.append("<form id='reqform' method='POST'></form>");
-        h.append("<table><tr><th>ISBN</th><th>Title</th><th>Author</th></tr><tbody id='btable'>");
+        h.append("<div class='table-wrap'><table><tr><th>ISBN</th><th>Title</th><th>Author</th></tr><tbody id='btable'>");
         h.append("<tr><td colspan='3' class='empty'>Select a filter above to browse books</td></tr>");
-        h.append("</tbody></table></div>");
+        h.append("</tbody></table></div></div>");
 
         // My Requests
         h.append("<div class='card'><h2>&#128203; My Requests</h2>");
         List<Request> myReqs = requests.stream().filter(r -> r.getUsername().equals(username) && "pending".equals(r.getStatus())).collect(Collectors.toList());
         if (!myReqs.isEmpty()) {
-            h.append("<table><tr><th>Book</th><th>Author</th><th>Requested At</th><th>Action</th></tr>");
+            h.append("<div class='table-wrap'><table><tr><th>Book</th><th>Author</th><th>Requested At</th><th>Action</th></tr>");
             for (Request r : myReqs) {
                 Book b = findBook(r.getIsbn());
                 String bookTitle = b != null ? b.getTitle() : r.getIsbn();
                 String author = b != null ? b.getAuthor() : "";
-                h.append("<tr><td>").append(bookTitle).append("</td><td>").append(author).append("</td><td class='sr'>").append(r.getTimestamp()).append("</td>")
-                 .append("<td><form method='POST'><input type='hidden' name='action' value='cancel'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><button class='btn btn-rj btn-sm'>Cancel</button></form></td></tr>");
+                h.append("<tr><td data-label=\"Book\">").append(bookTitle).append("</td><td data-label=\"Author\">").append(author).append("</td><td data-label=\"Requested At\" class='sr'>").append(r.getTimestamp()).append("</td>")
+                 .append("<td data-label=\"Action\"><form method='POST'><input type='hidden' name='action' value='cancel'><input type='hidden' name='isbn' value='").append(r.getIsbn()).append("'><button class='btn btn-rj btn-sm'>Cancel</button></form></td></tr>");
             }
-            h.append("</table>");
+            h.append("</table></div>");
         } else h.append("<p class='empty'>No requests yet.</p>");
         h.append("</div>");
 
@@ -1211,7 +1609,7 @@ h.append("<form id='reqform' method='POST'></form>");
         h.append("<div class='card'><h2>&#128230; My Borrowed Books</h2>");
         List<BorrowRecord> myBorrows = borrows.stream().filter(br -> br.username.equals(username)).collect(Collectors.toList());
         if (!myBorrows.isEmpty()) {
-            h.append("<table><tr><th>ISBN</th><th>Title</th><th>Author</th><th>Due Date</th><th>Status</th><th>Read</th></tr>");
+            h.append("<div class='table-wrap'><table><tr><th>ISBN</th><th>Title</th><th>Author</th><th>Due Date</th><th>Status</th><th>Read</th></tr>");
             for (BorrowRecord br : myBorrows) {
                 Book b = findBook(br.isbn);
                 String title = b != null ? b.getTitle() : br.isbn;
@@ -1221,13 +1619,13 @@ h.append("<form id='reqform' method='POST'></form>");
                 String sc = daysUntilDue <= 0 ? "sb" : (daysUntilDue <= 2 ? "sy" : "sa");
                 String st = daysOver > 0 ? daysOver + " day(s) overdue" : (daysUntilDue <= 0 ? "Due today" : (daysUntilDue <= 2 ? daysUntilDue + " day(s) remaining" : "On time"));
                 String dueSc = daysUntilDue <= 0 ? "sb" : (daysUntilDue <= 2 ? "sy" : "");
-                h.append("<tr><td>").append(br.isbn).append("</td><td>").append(title)
-                 .append("</td><td>").append(author).append("</td>")
-                 .append("<td class='").append(dueSc).append("'>").append(br.dueDate).append("</td>")
-                 .append("<td class='").append(sc).append("'>").append(st).append("</td>")
-                 .append("<td><a href='/read?isbn=").append(br.isbn).append("' class='btn btn-pri btn-sm' style='text-decoration:none'>Read</a></td></tr>");
+                h.append("<tr><td data-label=\"ISBN\">").append(br.isbn).append("</td><td data-label=\"Title\">").append(title)
+                 .append("</td><td data-label=\"Author\">").append(author).append("</td>")
+                 .append("<td data-label=\"Due Date\" class='").append(dueSc).append("'>").append(br.dueDate).append("</td>")
+                 .append("<td data-label=\"Status\" class='").append(sc).append("'>").append(st).append("</td>")
+                 .append("<td data-label=\"Read\"><a href='/read?isbn=").append(br.isbn).append("' class='btn btn-pri btn-sm' style='text-decoration:none'>Read</a></td></tr>");
             }
-            h.append("</table>");
+            h.append("</table></div>");
             h.append("<div style='margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)'>");
             h.append("<p style='color:#c8c8e8;font-size:.9em;font-weight:600;margin-bottom:10px'>Return a Book</p>");
             h.append("<form method='POST' class='form-row'><input type='hidden' name='action' value='return'>");
@@ -1307,6 +1705,8 @@ h.append("<form id='reqform' method='POST'></form>");
         h.append(".topbar .nav-links{display:flex;gap:10px;align-items:center}");
         h.append(".topbar a{color:rgba(255,255,255,.4);text-decoration:none;padding:8px 18px;border:1px solid rgba(255,255,255,.06);border-radius:10px;font-size:.82em;font-family:'Inter',sans-serif;transition:all .3s;font-weight:500}");
         h.append(".topbar a:hover{color:#fff;border-color:#667eea;background:rgba(102,126,234,.1);transform:translateY(-1px)}");
+        h.append(".topbar .nav-btn{padding:8px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;font-weight:600;font-size:.82em}");
+        h.append(".topbar .nav-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(102,126,234,.3);background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}");
         h.append(".hero{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:50px 24px 30px;text-align:center;animation:fadeUp .6s ease-out}");
         h.append(".hero .icon{font-size:56px;margin-bottom:16px;display:inline-block;filter:drop-shadow(0 8px 30px rgba(102,126,234,.25));animation:glowPulse 3s ease-in-out infinite}");
         h.append(".hero h1{font-family:'Inter',sans-serif;font-size:2.2em;color:#f0f0ff;font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:8px}");
@@ -1334,9 +1734,13 @@ h.append("<form id='reqform' method='POST'></form>");
         h.append(".blocked p{color:rgba(255,255,255,.4);margin-bottom:32px;font-size:.95em;line-height:1.6}");
         h.append(".blocked a{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;text-decoration:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.9em;transition:all .3s}");
         h.append(".blocked a:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(102,126,234,.35)}");
+        h.append(".reader-foot{text-align:center;margin-top:24px;padding-bottom:20px}");
+        h.append(".back-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;border:none;border-radius:12px;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);text-decoration:none;font-family:'Inter',sans-serif;transition:all .3s;letter-spacing:.3px}");
+        h.append(".back-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(102,126,234,.35)}");
+        h.append(".back-btn:active{transform:translateY(0)}");
         h.append("@media(max-width:600px){.hero h1{font-size:1.4em}.content-card{padding:28px 22px;font-size:.95em}.topbar{padding:0 16px}.due-bar .inner{flex-direction:column;gap:8px;text-align:center}}");
         h.append("</style></head><body>");
-        h.append("<div class='topbar'><div class='title'>&#128218; <span>e</span>Library</div><div class='nav-links'><a href='/dashboard'>&larr; Dashboard</a></div></div>");
+        h.append("<div class='topbar'><div class='title'>&#128218; <span>e</span>Library</div><div class='nav-links'><a href='/dashboard' class='nav-btn'>&larr; Dashboard</a></div></div>");
         h.append("<div class='hero'><div class='icon'>&#128214;</div><h1>").append(book.getTitle()).append("</h1>");
         h.append("<p class='author'>by <strong>").append(book.getAuthor()).append("</strong></p>");
         h.append("<div class='meta'><span>").append(book.getType()).append("</span><span>").append(book.getLevel()).append("</span><span>").append(book.getClassName()).append("</span></div></div>");
@@ -1353,9 +1757,9 @@ h.append("<form id='reqform' method='POST'></form>");
             h.append("</div>");
             h.append("<div class='blocked'><div class='icon'>&#128274;</div><h2>").append(message != null ? message : "Access Denied").append("</h2><p>You have not borrowed this book or your borrowing period has expired.</p><a href='/dashboard'>Back to Dashboard</a></div>");
         } else if (flipUrl != null) {
-            h.append("<div class='flipframe'><iframe src='").append(flipUrl).append("' allowfullscreen></iframe></div></div>");
+            h.append("<div class='flipframe'><iframe src='").append(flipUrl).append("' allowfullscreen></iframe></div><div class='reader-foot'><a href='/dashboard' class='back-btn'>&larr; Back to Dashboard</a></div></div>");
         } else {
-            h.append("<div class='content-card'>").append(book.getContent()).append("</div></div>");
+            h.append("<div class='content-card'>").append(book.getContent()).append("</div><div class='reader-foot'><a href='/dashboard' class='back-btn'>&larr; Back to Dashboard</a></div></div>");
         }
         h.append("</body></html>");
         return h.toString();
@@ -1394,6 +1798,8 @@ h.append("<form id='reqform' method='POST'></form>");
                             if (r.getIsbn().equals(isbn) && r.getUsername().equals(reqUser) && "pending".equals(r.getStatus())) {
                                 borrows.add(new BorrowRecord(isbn, reqUser));
                                 r.setStatus("approved");
+                                saveBorrows();
+                                saveRequests();
                                 break;
                             }
                         }
@@ -1403,6 +1809,7 @@ h.append("<form id='reqform' method='POST'></form>");
                     for (Request r : requests) {
                         if (r.getIsbn().equals(isbn) && r.getUsername().equals(reqUser) && "pending".equals(r.getStatus())) {
                             r.setStatus("rejected");
+                            saveRequests();
                             break;
                         }
                     }
@@ -1415,7 +1822,14 @@ h.append("<form id='reqform' method='POST'></form>");
                             break;
                         }
                     }
-                    if (toRemove != null) users.remove(toRemove);
+                    if (toRemove != null) {
+                        users.remove(toRemove);
+                        requests.removeIf(r -> r.getUsername().equals(reqUser));
+                        borrows.removeIf(br -> br.username.equals(reqUser));
+                        saveUsers();
+                        saveRequests();
+                        saveBorrows();
+                    }
                 }
             }
             redirect(exchange, "/admin");
@@ -1621,7 +2035,7 @@ h.append("<form id='reqform' method='POST'></form>");
         // All books grouped by class
         h.append("<div class='card'><h2>&#128214; All Books by Class</h2>");
         Map<String, List<Book>> byClass = new LinkedHashMap<>();
-        List<String> classOrder = Arrays.asList("Form 1", "Form 2", "Form 3", "Form 4", "Form 5", "Form 6", "Play", "Novel");
+        List<String> classOrder = Arrays.asList("Nursery", "Standard 1", "Standard 2", "Standard 3", "Standard 4", "Standard 5", "Standard 6", "Standard 7", "Form 1", "Form 2", "Form 3", "Form 4", "Form 5", "Form 6", "Play", "Novel");
         for (Book b : library) {
             byClass.computeIfAbsent(b.getClassName(), k -> new ArrayList<>()).add(b);
         }
