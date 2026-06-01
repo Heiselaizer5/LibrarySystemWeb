@@ -535,6 +535,94 @@ public class Main {
         library.add(Book.load("Kiarabu (Kiswahili Medium Schools)", "TIE", "T447", "Tie", "Primary", "Standard 4",
             "Kiarabu kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huanzisha lugha ya Kiarabu, herufi, msamiati, na mazungumzo. Hutumia shughuli shirikishi na michezo ya lugha.<br><br>Topics: Herufi za Kiarabu, Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa Kiarabu, Kusoma na Kuandika, Sheng na Kauli."));
 
+        // ── Primary / Standard 5 Books (English Medium, New Syllabus) ──
+        library.add(Book.load("Mathematics", "TIE", "T454", "Tie", "Primary", "Standard 5",
+            "Mathematics for Standard Five builds on numeracy skills with advanced arithmetic, fractions, decimals, geometry, and problem-solving. Aligned with the new primary syllabus.<br><br>Topics: Numbers and Operations, Fractions and Decimals, Geometry and Measurement, Data Handling, Algebra Basics, Problem Solving, Time and Money, Patterns."));
+        library.add(Book.load("Science", "TIE", "T455", "Tie", "Primary", "Standard 5",
+            "Science for Standard Five introduces scientific inquiry, living things, matter, energy, and the environment. Hands-on activities promote critical thinking.<br><br>Topics: Scientific Investigation, Living and Non-Living Things, Human Body Systems, Plants, Matter and Energy, Light and Sound, Simple Machines, Weather and Climate."));
+        library.add(Book.load("English", "TIE", "T456", "Tie", "Primary", "Standard 5",
+            "English for Standard Five develops reading comprehension, writing fluency, grammar, and communication skills. Uses stories and real-life contexts.<br><br>Topics: Reading Comprehension, Grammar and Sentence Structure, Composition Writing, Vocabulary Building, Oral Communication, Poetry, Listening Skills."));
+        library.add(Book.load("Geography and Environment", "TIE", "T457", "Tie", "Primary", "Standard 5",
+            "Geography and Environment for Standard Five explores physical geography, maps, weather, ecosystems, and environmental conservation.<br><br>Topics: Map Reading, Physical Features, Weather and Climate, Ecosystems, Natural Resources, Environmental Conservation, Population, Settlement Patterns."));
+        library.add(Book.load("Arts and Sports", "TIE", "T458", "Tie", "Primary", "Standard 5",
+            "Arts and Sports for Standard Five nurtures creativity through visual arts, music, dance, and physical education. Promotes teamwork and healthy living.<br><br>Topics: Drawing and Painting, Modeling and Sculpture, Music and Rhythm, Dance and Movement, Athletics, Ball Games, Gymnastics, Sportsmanship."));
+        // ── Primary / Standard 5 Books (Kiswahili Medium, New Syllabus) ──
+        library.add(Book.load("Hisabati (Kiswahili Medium Schools)", "TIE", "T463", "Tie", "Primary", "Standard 5",
+            "Hisabati kwa Darasa la Tano inaimarisha stadi za kuhesabu, kukokotoa, na kutatua matatizo kwa kutumia hesabu za msingi na za juu.<br><br>Topics: Namba na Shughuli za Hisabati, Sehemu na Desimali, Jiometri na Vipimo, Takwimu za Msingi, Aljebra, Utatuzi wa Matatizo, Muda na Pesa, Mfumo wa Kipimo."));
+        library.add(Book.load("Sayansi (Kiswahili Medium Schools)", "TIE", "T464", "Tie", "Primary", "Standard 5",
+            "Sayansi kwa Darasa la Tano inatanguliza uchunguzi wa kisayansi, viumbe hai, maada, nishati, na mazingira kwa shughuli za vitendo.<br><br>Topics: Uchunguzi wa Kisayansi, Viumbe Hai na Visivyo Hai, Mfumo wa Mwili wa Binadamu, Mimea, Maada na Nishati, Mwanga na Sauti, Mashine Rahisi, Hali ya Hewa na Tabianchi."));
+        library.add(Book.load("Kiswahili (Kiswahili Medium Schools)", "TIE", "T465", "Tie", "Primary", "Standard 5",
+            "Kiswahili kwa Darasa la Tano huendeleza stadi za kusoma, kuandika, kusikiliza, na kuzungumza. Hutumia nyaraka halisi na mazoezi shirikishi.<br><br>Topics: Kusoma na Kufahamu, Sarufi na Muundo wa Sentensi, Uandishi wa Insha, Msamiati, Mawasiliano ya Mdomo, Ushairi, Stadi za Kusikiliza."));
+        library.add(Book.load("Jiografia na Mazingira (Kiswahili Medium Schools)", "TIE", "T466", "Tie", "Primary", "Standard 5",
+            "Jiografia na Mazingira kwa Darasa la Tano inachunguza jiografia halisi, ramani, hali ya hewa, mifumo ikolojia, na uhifadhi wa mazingira.<br><br>Topics: Usomaji wa Ramani, Maumbile ya Dunia, Hali ya Hewa na Tabianchi, Mifumo Ikolojia, Maliasili, Uhifadhi wa Mazingira, Idadi ya Watu, Makazi."));
+        library.add(Book.load("Historia na Maadili (Kiswahili Medium Schools)", "TIE", "T467", "Tie", "Primary", "Standard 5",
+            "Historia na Maadili kwa Darasa la Tano inafundisha historia ya Tanzania, maadili ya uraia, haki za binadamu, na maamuzi ya kimaadili.<br><br>Topics: Historia ya Tanzania, Makabila na Utamaduni, Uongozi na Utawala, Haki na Wajibu, Maadili na Maamuzi, Amani na Migogoro, Ushirikishwaji wa Jamii, Utandawazi."));
+        library.add(Book.load("Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T468", "Tie", "Primary", "Standard 5",
+            "Sanaa na Michezo kwa Darasa la Tano inakuza ubunifu kwa sanaa za kuona, muziki, ngoma, na michezo. Inahimiza timu na maisha bora.<br><br>Topics: Uchoraji na Upakaji Rangi, Ufinyanzi na Sanamu, Muziki na Mdundo, Ngoma na Miondoko, Riadha, Michezo ya Mpira, Mazoezi ya Mwili, Ushirikiano."));
+        library.add(Book.load("Kichina (Kiswahili Medium Schools)", "TIE", "T469", "Tie", "Primary", "Standard 5",
+            "Kichina kwa Shule za Msingi Darasa la Tano (Kiswahili Medium Schools) huanzisha lugha ya Kichina, herufi, msamiati, na mazungumzo.<br><br>Topics: Herufi na Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo na Utamaduni, Kusoma na Kuandika, Sheng na Kauli, Mazoezi ya Lugha."));
+        library.add(Book.load("Kiarabu (Kiswahili Medium Schools)", "TIE", "T470", "Tie", "Primary", "Standard 5",
+            "Kiarabu kwa Shule za Msingi Darasa la Tano (Kiswahili Medium Schools) huanzisha lugha ya Kiarabu, herufi, msamiati, na mazungumzo.<br><br>Topics: Herufi za Kiarabu, Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa Kiarabu, Kusoma na Kuandika, Sheng na Kauli."));
+        library.add(Book.load("Kifaransa (Kiswahili Medium Schools)", "TIE", "T471", "Tie", "Primary", "Standard 5",
+            "Kifaransa kwa Darasa la Tano (Kiswahili Medium Schools) huanzisha lugha ya Kifaransa, msamiati, mazungumzo, na utamaduni. Hutumia shughuli shirikishi.<br><br>Topics: Msamiati wa Msingi, Mazungumzo na Matamshi, Sarufi, Kusoma na Kuandika, Utamaduni wa Kifaransa, Nyimbo, Michezo ya Kuigiza."));
+        library.add(Book.load("Maisha Salama (Kiswahili Medium Schools)", "TIE", "T472", "Tie", "Primary", "Standard 5",
+            "Maisha Salama kwa Darasa la Tano inafundisha usalama, afya, na stadi za kujikinga na hatari mbalimbali.<br><br>Topics: Usalama Barabarani, Usalama Nyumbani na Shuleni, Huduma ya Kwanza, Afya na Lishe, Kuzuia Ajali, Madhara ya Dawa za Kulevya, Uvuvi na Usalama Majini, Tahadhari za Dharura."));
+
+        // ── Primary / Standard 6 Books (English Medium) ──
+        library.add(Book.load("Mathematics", "TIE", "T473", "Tie", "Primary", "Standard 6",
+            "Mathematics for Standard Six advances numeracy with percentages, ratios, algebra, geometry, data interpretation, and complex problem-solving.<br><br>Topics: Percentages and Ratios, Algebra and Equations, Geometry and Measurement, Data Handling and Probability, Integers, Exponents, Financial Mathematics, Logical Reasoning."));
+        library.add(Book.load("Science", "TIE", "T474", "Tie", "Primary", "Standard 6",
+            "Science for Standard Six deepens understanding of scientific concepts through experiments, research, and application of scientific methods.<br><br>Topics: Scientific Research Skills, Cells and Microorganisms, Human Reproduction, Nutrition and Digestion, Forces and Motion, Electricity and Magnetism, The Solar System, Environmental Science."));
+        library.add(Book.load("English", "TIE", "T475", "Tie", "Primary", "Standard 6",
+            "English for Standard Six enhances language proficiency through advanced reading, writing, grammar, and oral communication activities.<br><br>Topics: Advanced Reading Comprehension, Complex Grammar Structures, Essay and Report Writing, Vocabulary Expansion, Debates and Presentations, Literary Analysis, Media Literacy."));
+        library.add(Book.load("Geography and Environment", "TIE", "T476", "Tie", "Primary", "Standard 6",
+            "Geography and Environment for Standard Six explores world geography, climate change, resource management, and sustainable development.<br><br>Topics: World Geography, Climate and Climate Change, Water Resources and Management, Land Use and Planning, Environmental Degradation, Conservation Strategies, Sustainable Development Goals."));
+        library.add(Book.load("Arts and Sports", "TIE", "T477", "Tie", "Primary", "Standard 6",
+            "Arts and Sports for Standard Six develops artistic expression, cultural appreciation, and physical fitness through diverse activities.<br><br>Topics: Advanced Drawing and Painting, Sculpture and Carving, Music Composition, Drama and Performance, Athletics and Sports Techniques, Fitness and Wellness, Dance and Choreography."));
+        // ── Primary / Standard 6 Books (Kiswahili Medium) ──
+        library.add(Book.load("Hisabati (Kiswahili Medium Schools)", "TIE", "T482", "Tie", "Primary", "Standard 6",
+            "Hisabati kwa Darasa la Sita inaingia katika asilimia, uwiano, aljebra, jiometri, tafsiri ya data, na utatuzi wa matatizo changamano.<br><br>Topics: Asilimia na Uwiano, Aljebra na Milinganyo, Jiometri na Vipimo, Takwimu na Uwezekano, Namba Kamili, Vipeo, Hisabati za Kifedha, Fikra za Kimantiki."));
+        library.add(Book.load("Kiswahili (Kiswahili Medium Schools)", "TIE", "T484", "Tie", "Primary", "Standard 6",
+            "Kiswahili kwa Darasa la Sita huendeleza ujuzi wa lugha kwa kusoma, kuandika, sarufi, na mawasiliano ya juu.<br><br>Topics: Ufahamu wa Juu, Sarufi na Miundo Changamano, Uandishi wa Insha na Ripoti, Msamiati, Majadiliano na Mijadala, Uchambuzi wa Fasihi, Utamaduni na Lugha."));
+        library.add(Book.load("Jiografia na Mazingira (Kiswahili Medium Schools)", "TIE", "T485", "Tie", "Primary", "Standard 6",
+            "Jiografia na Mazingira kwa Darasa la Sita inachunguza jiografia ya dunia, mabadiliko ya tabianchi, na maendeleo endelevu.<br><br>Topics: Jiografia ya Dunia, Tabianchi na Mabadiliko yake, Rasilimali za Maji, Matumizi ya Ardhi, Uharibifu wa Mazingira, Mikakati ya Uhifadhi, Malengo ya Maendeleo Endelevu."));
+        library.add(Book.load("Historia na Maadili (Kiswahili Medium Schools)", "TIE", "T486", "Tie", "Primary", "Standard 6",
+            "Historia na Maadili kwa Darasa la Sita inaangalia historia ya Afrika na dunia, mifumo ya utawala, na maadili ya uongozi.<br><br>Topics: Historia ya Afrika, Mfumo wa Utawala wa Kikoloni, Harakati za Uhuru, Uongozi na Maadili, Katiba na Sheria, Demokrasia na Uchaguzi, Haki za Binadamu, Amani na Usalama."));
+        library.add(Book.load("Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T487", "Tie", "Primary", "Standard 6",
+            "Sanaa na Michezo kwa Darasa la Sita inakuza ubunifu wa kisanaa, uthamini wa utamaduni, na siha ya mwili.<br><br>Topics: Uchoraji na Upakaji Rangi, Sanamu na Uchongaji, Utungaji wa Muziki, Mchezo wa Kuigiza, Riadha na Michezo, Siha na Sifa, Ngoma na Choreografia, Utamaduni wa Sanaa."));
+        library.add(Book.load("Elimu ya Afya ya Uzazi na Ustawi (Kiswahili Medium Schools)", "TIE", "T488", "Tie", "Primary", "Standard 6",
+            "Elimu ya Afya ya Uzazi na Ustawi kwa Darasa la Sita inafundisha afya ya uzazi, ustawi wa jamii, na stadi za maisha.<br><br>Topics: Afya ya Uzazi, Mabadiliko ya Balehe, Mahusiano na Mawasiliano, Ustawi wa Jamii, Kuzuia Mimba za Utotoni, VVU na UKIMWI, Madawa ya Kulevya, Stadi za Kujitetea."));
+        library.add(Book.load("Maisha Salama (Kiswahili Medium Schools)", "TIE", "T489", "Tie", "Primary", "Standard 6",
+            "Maisha Salama kwa Darasa la Sita inaendeleza elimu ya usalama, afya, na kujikinga na hatari katika mazingira mbalimbali.<br><br>Topics: Usalama Barabarani na Usafiri, Usalama Mtandaoni, Afya na Lishe Bora, Huduma ya Kwanza ya Juu, Kuzuia Magonjwa, Majanga ya Asili na Kukabiliana Nayo, Stadi za Kuishi Salama, Uhamasishaji wa Jamii."));
+
+        // ── Primary / Standard 7 Books (English Medium) ──
+        library.add(Book.load("Mathematics", "TIE", "T490", "Tie", "Primary", "Standard 7",
+            "Mathematics for Standard Seven prepares students for secondary school with comprehensive coverage of all primary-level mathematics topics.<br><br>Topics: Number Systems and Operations, Fractions, Decimals and Percentages, Algebra and Equations, Geometry and Mensuration, Data Handling and Probability, Ratio and Proportion, Financial Literacy."));
+        library.add(Book.load("Science", "TIE", "T491", "Tie", "Primary", "Standard 7",
+            "Science for Standard Seven consolidates scientific knowledge and prepares learners for secondary science through integrated investigations.<br><br>Topics: Integrated Science Skills, Heredity and Evolution, Human Body Systems, Ecosystems and Food Chains, Energy Transformations, Chemical Reactions, Space Exploration, Environmental Challenges and Solutions."));
+        library.add(Book.load("English", "TIE", "T492", "Tie", "Primary", "Standard 7",
+            "English for Standard Seven prepares students for secondary English with advanced literacy, critical thinking, and communication skills.<br><br>Topics: Critical Reading and Analysis, Advanced Composition, Research and Report Writing, Public Speaking and Presentations, Grammar Mastery, Creative Writing, Media and Digital Literacy, Literature Appreciation."));
+        library.add(Book.load("Geography and Environment", "TIE", "T493", "Tie", "Primary", "Standard 7",
+            "Geography and Environment for Standard Seven integrates physical and human geography with environmental management and global issues.<br><br>Topics: Physical Geography Review, Human Geography, Urbanization and Settlement, Environmental Management, Global Environmental Issues, Climate Action, Biodiversity Conservation, Sustainable Resource Use."));
+        library.add(Book.load("Arts and Sports", "TIE", "T494", "Tie", "Primary", "Standard 7",
+            "Arts and Sports for Standard Seven combines creative arts with advanced sports skills, preparing students for lifelong physical activity.<br><br>Topics: Creative Arts Portfolio, Advanced Music and Performance, Sports Leadership, Team Sports Strategies, Health and Fitness Planning, Cultural Festivals and Events, Art Exhibition, Sports Officiating."));
+
+        // ── Primary / Standard 7 Books (Kiswahili Medium) ──
+        library.add(Book.load("Hisabati (Kiswahili Medium Schools)", "TIE", "T499", "Tie", "Primary", "Standard 7",
+            "Hisabati kwa Darasa la Saba inamwandaa mwanafunzi kwa elimu ya sekondari kwa maelezo kamili ya hisabati za msingi.<br><br>Topics: Mifumo ya Namba na Shughuli, Sehemu na Asilimia, Aljebra na Milinganyo, Jiometri na Upimaji, Takwimu na Uwezekano, Uwiano na Sawia, Elimu ya Fedha."));
+        library.add(Book.load("Kiswahili (Kiswahili Medium Schools)", "TIE", "T501", "Tie", "Primary", "Standard 7",
+            "Kiswahili kwa Darasa la Saba kinamwandaa mwanafunzi kwa Kiswahili cha sekondari kwa stadi za juu za lugha.<br><br>Topics: Usomaji Makini na Uchambuzi, Uandishi wa Juu, Utafiti na Uandishi wa Ripoti, Hotuba na Mawasilisho, Sarufi Kamili, Uandishi wa Bunilizi, Fasihi na Uchambuzi Wake, Lugha na Teknolojia."));
+        library.add(Book.load("Jiografia na Mazingira (Kiswahili Medium Schools)", "TIE", "T502", "Tie", "Primary", "Standard 7",
+            "Jiografia na Mazingira kwa Darasa la Saba inachanganya jiografia halisi na ya binadamu na usimamizi wa mazingira.<br><br>Topics: Mapitio ya Jiografia Halisi, Jiografia ya Binadamu, Miji na Makazi, Usimamizi wa Mazingira, Masuala ya Mazingira Duniani, Hatua za Tabianchi, Uhifadhi wa Bioanuai, Matumizi Endelevu ya Rasilimali."));
+        library.add(Book.load("Historia na Maadili (Kiswahili Medium Schools)", "TIE", "T503", "Tie", "Primary", "Standard 7",
+            "Historia na Maadili kwa Darasa la Saba inamwandaa mwanafunzi kwa historia na maadili ya sekondari.<br><br>Topics: Historia ya Tanzania na Afrika, Mchange wa Utawala, Harakati za Ukombozi, Ujenzi wa Taifa, Maadili ya Uongozi, Haki na Usawa, Demokrasia na Vyama Vingi, Tanzania katika Jumuiya za Kimataifa."));
+        library.add(Book.load("Sanaa na Michezo (Kiswahili Medium Schools)", "TIE", "T504", "Tie", "Primary", "Standard 7",
+            "Sanaa na Michezo kwa Darasa la Saba inachanganya sanaa bunifu na michezo ya juu kumwandaa mwanafunzi kwa maisha.<br><br>Topics: Kwingineo la Sanaa Bunifu, Muziki wa Juu na Maonyesho, Uongozi wa Michezo, Mikakati ya Michezo ya Timu, Mipango ya Afya na Siha, Sherehe za Utamaduni, Maonyesho ya Sanaa, Uamuzi wa Michezo."));
+        library.add(Book.load("Elimu ya Afya ya Uzazi na Ustawi (Kiswahili Medium Schools)", "TIE", "T505", "Tie", "Primary", "Standard 7",
+            "Elimu ya Afya ya Uzazi na Ustawi kwa Darasa la Saba inatoa elimu ya juu ya afya ya uzazi na ustawi kwa maisha bora.<br><br>Topics: Afya ya Uzazi na Ustawi, Uhusiano na Mawasiliano, Maamuzi ya Maisha, Kuzuia Unyanyasaji, Afya ya Akili, Ustawi wa Jamii, Uwezeshaji wa Kiuchumi, Maadili ya Teknolojia."));
+        library.add(Book.load("Maisha Salama (Kiswahili Medium Schools)", "TIE", "T506", "Tie", "Primary", "Standard 7",
+            "Maisha Salama kwa Darasa la Saba inajenga utamaduni wa usalama na kuwajibika kwa mwanafunzi anayekabiliana na changamoto mbalimbali.<br><br>Topics: Usalama na Usafiri, Usalama Dijitali na Mtandaoni, Afya na Usafi wa Mazingira, Uzuiaji wa Magonjwa ya Kuambukiza, Mabadiliko ya Tabianchi na Athari Zake, Usalama wa Chakula na Maji, Huduma ya Kwanza na Dharura, Ushirikishwaji wa Jamii."));
+
         // ── Flipbook URLs (TIE self-hosted, fliphtml5 fallback) ──
         flipbooks.put("T009", "https://online.fliphtml5.com/ebxst/ohok/");
         flipbooks.put("T012", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/Biology/Biology_F5.html");
@@ -781,6 +869,49 @@ public class Main {
         flipbooks.put("T451", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Geography/Geography_n_Environ_Std_4.html");
         flipbooks.put("T452", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/Art_n_Sports/Art_n_Sports_Std_4.html");
         flipbooks.put("T453", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std4/French/French_Std_4.html");
+
+        // ── Standard 5 Flipbook URLs ──
+        flipbooks.put("T454", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std5/mathematics/mathematics_std_5.html");
+        flipbooks.put("T455", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std5/Science/Science_std5.html");
+        flipbooks.put("T456", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std5/English/English_Std_5.html");
+        flipbooks.put("T457", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std5/Geography/Geography_Std_5.html");
+        flipbooks.put("T458", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std5/Arts_and_Sports/Arts_and_Sports_Std_5.html");
+        flipbooks.put("T463", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Hisabati/Hisabati_Std_5.html");
+        flipbooks.put("T464", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Sayansi/Sayansi_Std_5.html");
+        flipbooks.put("T465", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Kiswahili/Kiswahili_Std_5.html");
+        flipbooks.put("T466", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Jiografia/Jiografia_Std_5.html");
+        flipbooks.put("T467", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Historia_na_Maadili/Historia_na_Maadili_Std_5.html");
+        flipbooks.put("T468", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Sanaa_na_Michezo/Sanaa_na_Michezo_Std_5.html");
+        flipbooks.put("T469", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Chinese/Chinese_Std_5.html");
+        flipbooks.put("T470", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Arabic/Arabic_Std_5.html");
+        flipbooks.put("T471", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/French/French_Std_5.html");
+        flipbooks.put("T472", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std5/Maisha_Salama/Maisha_Salama_Std_5.html");
+
+        // ── Standard 6 Flipbook URLs ──
+        flipbooks.put("T473", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std6/Mathematics/Mathematics_Std_6.html");
+        flipbooks.put("T474", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std6/Science/Science_Std_6.html");
+        flipbooks.put("T475", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std6/English/English_Std_6.html");
+        flipbooks.put("T476", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std6/Geography/Geography_Std_6.html");
+        flipbooks.put("T477", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std6/Arts_and_Sports/Arts_n_Sports_Std_6.html");
+        flipbooks.put("T484", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Kiswahili/Kiswahili_Std_6.html");
+        flipbooks.put("T485", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Jiografia_na_Mazingira/Jiografia_na_Mazingira_Std_6.html");
+        flipbooks.put("T486", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Historia_na_Maadili/Historia_na_Maadili_Std_6.html");
+        flipbooks.put("T487", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Sanaa_na_Michezo/Sanaa_na_Michezo_Std_6.html");
+        flipbooks.put("T488", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Elimu_ya_Afya_ya_Uzazi/Elimu_ya_Afya_Uzazi_Std_6.html");
+        flipbooks.put("T489", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std6/Maisha_Salama/Maisha_Salama_Std_6.html");
+
+        // ── Standard 7 Flipbook URLs ──
+        flipbooks.put("T490", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std7/Mathematics/mathematics_std_7.html");
+        flipbooks.put("T491", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std7/Science/Science_Std_7.html");
+        flipbooks.put("T492", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std7/English/English_Std_7.html");
+        flipbooks.put("T493", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std7/Geography/Geography_Std_7.html");
+        flipbooks.put("T494", "https://ol.tie.go.tz/uploaded_files/books//primary/Eng/Std7/Arts_and_Sports/Arts_and_Sports_Std_7.html");
+        flipbooks.put("T501", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Kiswahili/Kiswahili_Std_7.html");
+        flipbooks.put("T502", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Jiografia_na_Mazingira/Jiografia_na_Mazingira_Std_7.html");
+        flipbooks.put("T503", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Historia_na_Maadili/Historia_na_Maadili_Std_7.html");
+        flipbooks.put("T504", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Sanaa_na_Michezo/Sanaa_na_Michezo_Std_7.html");
+        flipbooks.put("T505", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Elimu_ya_Afya_ya_Uzazi/Elimu_ya_Afya_Uzazi_Std_7.html");
+        flipbooks.put("T506", "https://ol.tie.go.tz/uploaded_files/books//primary/Kisw/Std7/Maisha_Salama/Maisha_Salama_Std_7.html");
 
         users.add(new User("admin", "admin123", "admin"));
         loadUsers();
@@ -1094,7 +1225,7 @@ footer a:hover{color:#667eea}
       <a href="#features" class="btn-secondary">Learn More</a>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-num">230+</div><div class="stat-label">Books</div></div>
+       <div class="stat"><div class="stat-num">280+</div><div class="stat-label">Books</div></div>
       <div class="stat"><div class="stat-num">PrePrimary - Form 6</div><div class="stat-label">Classes</div></div>
       <div class="stat"><div class="stat-num">&#8734;</div><div class="stat-label">Free Access</div></div>
     </div>
