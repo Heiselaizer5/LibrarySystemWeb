@@ -535,7 +535,7 @@ public class Main {
         library.add(Book.load("Kiarabu (Kiswahili Medium Schools)", "TIE", "T447", "Tie", "Primary", "Standard 4",
             "Kiarabu kwa Shule za Msingi Darasa la Nne (Kiswahili Medium Schools) huanzisha lugha ya Kiarabu, herufi, msamiati, na mazungumzo. Hutumia shughuli shirikishi na michezo ya lugha.<br><br>Topics: Herufi za Kiarabu, Matamshi, Msamiati wa Msingi, Mazungumzo, Nyimbo, Utamaduni wa Kiarabu, Kusoma na Kuandika, Sheng na Kauli."));
 
-        // ── Primary / Standard 5 Books (English Medium, New Syllabus) ──
+
         library.add(Book.load("Mathematics", "TIE", "T454", "Tie", "Primary", "Standard 5",
             "Mathematics for Standard Five builds on numeracy skills with advanced arithmetic, fractions, decimals, geometry, and problem-solving. Aligned with the new primary syllabus.<br><br>Topics: Numbers and Operations, Fractions and Decimals, Geometry and Measurement, Data Handling, Algebra Basics, Problem Solving, Time and Money, Patterns."));
         library.add(Book.load("Science", "TIE", "T455", "Tie", "Primary", "Standard 5",
