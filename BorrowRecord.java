@@ -11,7 +11,7 @@ class BorrowRecord implements Serializable {
     BorrowRecord(String isbn, String username) {
         this.isbn = isbn;
         this.username = username;
-        this.dueDate = LocalDateTime.now().plusDays(7).format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+        this.dueDate = LocalDateTime.now().plusDays(Main.BORROW_DAYS).format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
     }
 
     private LocalDateTime parsed() {

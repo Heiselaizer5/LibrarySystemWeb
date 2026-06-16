@@ -19,29 +19,32 @@ public class Main {
     private static final List<BorrowRecord> borrows = new ArrayList<>();
     private static final Map<String, String> sessions = new ConcurrentHashMap<>();
     private static final Map<String, String> flipbooks = new HashMap<>();
+    public static int BORROW_DAYS = 7;
 
-    private static final Path DATA_FILE = Paths.get("users.dat");
-    private static final Path REQUESTS_FILE = Paths.get("requests.dat");
-    private static final Path BORROWS_FILE = Paths.get("borrows.dat");
+    private static final Path DATA_DIR = Paths.get(System.getenv().getOrDefault("DATA_DIR", "/data"));
+    private static final Path DATA_FILE = DATA_DIR.resolve("users.dat");
+    private static final Path REQUESTS_FILE = DATA_DIR.resolve("requests.dat");
+    private static final Path BORROWS_FILE = DATA_DIR.resolve("borrows.dat");
 
     public static void main(String[] args) throws Exception {
         // ── Books ───────────────────────────────────────────
         library.add(Book.load("Advanced Mathematics", "TIE", "T009", "Tie", "A-Level", "Form 5",
             "Advanced mathematics covers calculus, complex numbers, and advanced statistics.<br><br>Chapter 1: Differentiation<br>Chapter 2: Integration<br>Chapter 3: Complex Numbers<br>Chapter 4: Vectors<br>Chapter 5: Probability Distributions"));
-        library.add(Book.load("A River Between", "Ngugi wa Thiong'o", "N001", "Novel", "Secondary", "Novel",
-            "The river was the soul of the land. It separated the two ridges, Kameno and Makuyu, each holding onto ancient traditions.<br><br>Waiyaki grew up knowing the river was more than water. It was a boundary between two worlds. As he learned the ways of the white man, he dreamed of unity — of building a bridge across the river that divided his people.<br><br>But love and duty pulled him in different directions. Would he betray his heritage or abandon his vision for a new future?"));
-        library.add(Book.load("Weep Not Child", "Ngugi wa Thiong'o", "N002", "Novel", "Secondary", "Novel",
-            "Njoroge sat under the mugumo tree, the weight of his family's hopes on his young shoulders. He was the first in his family to attend school, and education was their only escape from poverty.<br><br>But the Mau Mau uprising tore through the land like a wildfire. Brother turned against brother, and the soil ran red with blood. Njoroge learned that some battles cannot be won with books alone."));
-        library.add(Book.load("The Lion and the Jewel", "Wole Soyinka", "P001", "Play", "Secondary", "Play",
-            "The village of Ilujinle wakes to the sound of drums. Baroka, the aging Bale, seeks a new wife — the beautiful Sidi, known as the Jewel. But Lakunle, the young western-educated schoolteacher, also wants Sidi's hand.<br><br>What follows is a battle of tradition versus modernity, wit versus pride, and age versus youth. Who will win the Jewel?<br><br>ACT I: Morning<br>ACT II: Midday<br>ACT III: Evening"));
-        library.add(Book.load("Three Suitors One Husband", "Moliere", "P002", "Play", "Secondary", "Play",
-            "A comedy of errors unfolds when a young woman finds herself pursued by three very different suitors. Her father has chosen one, her mother another, but her heart belongs to a third.<br><br>Through witty dialogue and hilarious situations, this play explores love, family, and the timeless battle between arranged marriages and true love."));
-        library.add(Book.load("Oxford English Dictionary", "Oxford Press", "R001", "Reference", "All", "All",
-            "The definitive record of the English language. With over 600,000 words, phrases, and definitions, this comprehensive dictionary is an essential reference for students, writers, and language lovers.<br><br>Features:<br>- Complete A-Z coverage<br>- Etymology and word origins<br>- Pronunciation guides<br>- Usage examples<br>- Synonyms and antonyms"));
-        library.add(Book.load("Encyclopedia of Science", "DK Publishing", "R002", "Reference", "All", "All",
-            "A comprehensive guide to the world of science. From the tiniest atoms to the vast universe, this encyclopedia covers every branch of science with stunning illustrations and clear explanations.<br><br>Sections: Physics, Chemistry, Biology, Earth Science, Astronomy, Technology"));
-        library.add(Book.load("The Holy Bible", "Various", "G001", "Religion", "All", "All",
-            "The sacred scripture of Christianity, the Bible is divided into the Old and New Testaments. It contains 66 books written over thousands of years, telling the story of God's relationship with humanity.<br><br>Key Books: Genesis, Psalms, Proverbs, Gospels of Matthew, Mark, Luke, John"));
+        // -- Non-TIE books removed temporarily (Novels, Plays, Reference, Religion) --
+        // library.add(Book.load("A River Between", "Ngugi wa Thiong'o", "N001", "Novel", "Secondary", "Novel",
+        //     "The river was the soul of the land. ..."));
+        // library.add(Book.load("Weep Not Child", "Ngugi wa Thiong'o", "N002", "Novel", "Secondary", "Novel",
+        //     "Njoroge sat under the mugumo tree..."));
+        // library.add(Book.load("The Lion and the Jewel", "Wole Soyinka", "P001", "Play", "Secondary", "Play",
+        //     "The village of Ilujinle wakes to the sound of drums..."));
+        // library.add(Book.load("Three Suitors One Husband", "Moliere", "P002", "Play", "Secondary", "Play",
+        //     "A comedy of errors unfolds..."));
+        // library.add(Book.load("Oxford English Dictionary", "Oxford Press", "R001", "Reference", "All", "All",
+        //     "The definitive record of the English language..."));
+        // library.add(Book.load("Encyclopedia of Science", "DK Publishing", "R002", "Reference", "All", "All",
+        //     "A comprehensive guide to the world of science..."));
+        // library.add(Book.load("The Holy Bible", "Various", "G001", "Religion", "All", "All",
+        //     "The sacred scripture of Christianity..."));
 
         library.add(Book.load("Advanced Biology", "TIE", "T012", "Tie", "A-Level", "Form 5",
             "Advanced Biology Form 5 explores the principles of cytology, genetics, evolution, ecology, and physiology of living organisms. The book is designed to equip students with knowledge and skills necessary for advanced studies in biological sciences.<br><br>Topics: Cell Biology and Organisation, Genetics and Variation, Evolution Theories, Ecology and Ecosystems, Plant and Animal Physiology, Reproduction and Growth, Classification of Organisms."));
@@ -53,8 +56,8 @@ public class Main {
             "Kiswahili Kidato cha 5 (Kiwango cha Juu) kinajikita katika isimu ya Kiswahili, fasihi, na utamaduni. Mada muhimu ni pamoja na fonologia, mofolojia, sintaksia, semantiki, uandishi wa insha, tafiti za fasihi simulizi na andishi, na uchambuzi wa matini mbalimbali za kifasihi.<br><br>Topics: Fonologia na Mofolojia, Sintaksia na Muundo wa Sentensi, Semantiki na Pragmatiki, Historia ya Kiswahili na Maendeleo Yake, Fasihi Simulizi, Fasihi Andishi: Riwaya, Tamthilia, Ushairi, Uhakiki wa Fasihi, Uandishi wa Insha na Makala, Tafiti na Utafiti wa Kiswahili."));
         library.add(Book.load("Physical Geography", "TIE", "T014", "Tie", "A-Level", "Form 5",
             "Physical Geography for Advanced Secondary Schools Form Five covers the earth's structure, landforms, weather and climate, soils, vegetation, and environmental processes. The book follows the 2023 Geography syllabus.<br><br>Topics: Earth's Structure and Landforms, Weather and Climate, Soils and Vegetation, Map Reading and Interpretation, Environmental Conservation, Climatology, Geomorphology, Biogeography."));
-        library.add(Book.load("Practical Geography", "TIE", "T014p", "Tie", "A-Level", "Form 5",
-            "Practical Geography Form 5 covers map reading, interpretation, and field work techniques. This supplementary guide provides hands-on exercises for mastering topographic maps, statistical diagrams, photograph interpretation, and research methodology in geography.<br><br>Topics: Map Reading and Interpretation, Statistical Methods and Diagrams, Photograph Interpretation, Field Research Techniques, Surveying and Sketching, Climate Data Analysis, Population Data Analysis, Environmental Impact Assessment."));
+        // library.add(Book.load("Practical Geography", "TIE", "T014p", "Tie", "A-Level", "Form 5",
+        //     "Practical Geography Form 5 covers map reading, interpretation, and field work techniques. This supplementary guide provides hands-on exercises for mastering topographic maps, statistical diagrams, photograph interpretation, and research methodology in geography.<br><br>Topics: Map Reading and Interpretation, Statistical Methods and Diagrams, Photograph Interpretation, Field Research Techniques, Surveying and Sketching, Climate Data Analysis, Population Data Analysis, Environmental Impact Assessment."));
         library.add(Book.load("Computer Science", "TIE", "T022", "Tie", "A-Level", "Form 5",
             "Computer Science Form Five covers computer basics, data representation, problem solving, C++ programming, website development, and system development.<br><br>Topics: Computer Basics, Data Representation, Problem Solving, C++ Programming, Website Development, System Development."));
 
@@ -628,6 +631,7 @@ public class Main {
         flipbooks.put("T012", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/Biology/Biology_F5.html");
         flipbooks.put("T013", "https://online.fliphtml5.com/ebxst/qdgm/");
         flipbooks.put("T014", "https://online.fliphtml5.com/ebxst/tmhq/");
+        flipbooks.put("T016", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Kiswahili%20Shule%20za%20Sekondari%20Kiongozi%20cha%20Mwalimu%20Kidato%20cha%20Tano/SB/Kiswahili_Form_5.html");
         flipbooks.put("T019", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/Accountancy/Accountancy_F5.html");
         flipbooks.put("T022", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/Computer_Sci/Computer_Science_F5.html");
         flipbooks.put("T023", "https://ol.tie.go.tz/uploaded_files/books//adv_secondary/frmv/Stud_Book/English/English_F5.html");
@@ -1334,7 +1338,7 @@ footer a:hover{color:#667eea}
             <form method='POST'>
             <div class="input-group"><span class="icon">&#128100;</span><input type='text' name='username' placeholder='Username' required></div>
             <div class="input-group"><span class="icon">&#128273;</span><input type='password' name='password' id='spwd' placeholder='Password' required><span class='toggle-pwd' onclick="togglePwd('spwd',this)">&#128065;</span></div>
-            <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' id='sphone' placeholder='Phone number' required></div>
+            <div class="input-group"><span class="icon">&#128222;</span><input type='tel' name='phone' id='sphone' placeholder='e.g. 0762123456' pattern='0[0-9]{9}' maxlength='10' title='Enter a 10-digit phone number starting with 0' required><script>document.getElementById('sphone').addEventListener('input',function(){this.value=this.value.replace(/[^0-9]/g,'')})</script></div>
             <div class="input-group"><span class="icon">&#128220;</span><select name='securityQuestion' required><option value=''>Select a security question...</option><option value='What is your mothers maiden name?'>What is your mother's maiden name?</option><option value='What was the name of your first pet?'>What was the name of your first pet?</option><option value='What city were you born in?'>What city were you born in?</option><option value='What is your favorite book?'>What is your favorite book?</option><option value='What is the name of your primary school?'>What is the name of your primary school?</option></select></div>
             <div class="input-group"><span class="icon">&#128221;</span><input type='text' name='securityAnswer' placeholder='Security answer' required></div>
             <button type='submit' class='btn'>Sign Up</button>
@@ -1559,12 +1563,23 @@ footer a:hover{color:#667eea}
         return h.toString();
     }
 
+    // ── Auto-return expired borrows ───────────────────────
+    private static void cleanExpiredBorrows() {
+        List<BorrowRecord> expired = borrows.stream().filter(BorrowRecord::isOverdue).collect(Collectors.toList());
+        if (!expired.isEmpty()) {
+            borrows.removeAll(expired);
+            saveBorrows();
+        }
+    }
+
     // ── Dashboard (users) ──────────────────────────────────
 
     private static void handleDashboard(HttpExchange exchange) throws Exception {
         String user = getSessionUser(exchange);
         if (user == null) { redirect(exchange, "/login"); return; }
         if ("admin".equals(getRole(user))) { redirect(exchange, "/admin"); return; }
+
+        cleanExpiredBorrows();
 
         if ("POST".equals(exchange.getRequestMethod())) {
             Map<String, String> form = readForm(exchange);
@@ -1669,6 +1684,11 @@ footer a:hover{color:#667eea}
         h.append(".form-label{color:#c8c8e8;font-size:.9em;font-weight:600;margin-bottom:8px;display:block}");
         h.append(".form-group{flex:1;min-width:210px}");
         h.append("@media(max-width:600px){body{padding:12px}.stats{gap:10px}.stat{padding:15px}.stat .n{font-size:1.4em}}");
+        h.append(".wa-fab{position:fixed;bottom:28px;right:28px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7e);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:30px;box-shadow:0 6px 30px rgba(37,211,102,.35);transition:all .4s cubic-bezier(.25,.46,.45,.94);z-index:999;animation:fadeUp .8s ease-out .5s both}");
+        h.append(".wa-fab::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7e);opacity:.25;filter:blur(12px);z-index:-1;animation:pulse 2.5s ease-in-out infinite}");
+        h.append(".wa-fab:hover{transform:scale(1.12) translateY(-4px);box-shadow:0 12px 50px rgba(37,211,102,.5)}");
+        h.append(".wa-tooltip{position:fixed;bottom:100px;right:28px;background:rgba(16,16,36,.92);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 20px;color:rgba(255,255,255,.8);font-size:.82em;box-shadow:0 8px 30px rgba(0,0,0,.4);animation:fadeUp .6s ease-out .7s both;z-index:998;pointer-events:none}");
+        h.append(".wa-tooltip::after{content:'';position:absolute;bottom:-8px;right:24px;width:14px;height:14px;background:rgba(16,16,36,.92);border-right:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);transform:rotate(45deg);border-radius:2px}");
         h.append("</style>");
         // ── JS filter data ──────────────────────────────
         h.append("<script>");
@@ -1697,20 +1717,17 @@ h.append("populateRequest()");
         // Stats
         long myPendingReq = requests.stream().filter(r -> r.getUsername().equals(username) && "pending".equals(r.getStatus())).count();
         long myBorrowed = borrows.stream().filter(br -> br.username.equals(username)).count();
-        long remaining = library.size() - myBorrowed;
         h.append("<div class='stats'>");
         h.append("<div class='stat avail'><span class='n'>").append(avail).append("</span><span class='l'>Available</span></div>");
         h.append("<div class='stat req'><span class='n'>").append(myPendingReq).append("</span><span class='l'>Requests</span></div>");
         h.append("<div class='stat bor'><span class='n'>").append(myBorrowed).append("</span><span class='l'>Borrowed</span></div>");
-        h.append("<div class='stat tot'><span class='n'>").append(remaining).append("</span><span class='l'>Remaining</span></div>");
+
         h.append("</div>");
 
         // Browse Books
         h.append("<div class='card'><h2>&#128214; Browse Books</h2>");
         h.append("<div class='filter-row'><select id='ftype' onchange='populateLevel()'><option value=''>Select type...</option>");
-        Set<String> types = new LinkedHashSet<>();
-        for (Book b : library) types.add(b.getType());
-        for (String t : types) h.append("<option value='").append(t).append("'>").append(t).append("</option>");
+        h.append("<option value='Tie'>Tie</option>");
 h.append("</select><select id='flevel' onchange='populateClass()' disabled><option value=''>Select level first...</option></select>");
 h.append("<select id='fclass' onchange='filterBooks()' disabled><option value=''>Select class first...</option></select>");
 h.append("<select name='isbn' id='reqisbn' form='reqform' required><option value=''>Request book...</option></select>");
@@ -1768,6 +1785,8 @@ h.append("<form id='reqform' method='POST'></form>");
             }
             h.append("</select><button type='submit' class='btn btn-suc'>Return</button></form></div>");
         } else h.append("<p class='empty'>You have no borrowed books.</p>");
+        h.append("<a href='https://wa.me/255656424007' target='_blank' class='wa-fab' title='Chat on WhatsApp'>&#128172;</a>");
+        h.append("<div class='wa-tooltip'>Need help? Chat with us &#128172;</div>");
         h.append("</div></div></body></html>");
         return h.toString();
     }
@@ -1900,6 +1919,8 @@ h.append("<form id='reqform' method='POST'></form>");
         String user = getSessionUser(exchange);
         boolean isAdmin = user != null && "admin".equals(getRole(user));
 
+        cleanExpiredBorrows();
+
         if ("POST".equals(exchange.getRequestMethod())) {
             Map<String, String> form = readForm(exchange);
             String action = form.getOrDefault("action", "");
@@ -1961,6 +1982,13 @@ h.append("<form id='reqform' method='POST'></form>");
                         saveRequests();
                         saveBorrows();
                     }
+                }
+                case "updatesettings" -> {
+                    String daysStr = form.getOrDefault("borrowDays", "7");
+                    try {
+                        int days = Integer.parseInt(daysStr);
+                        if (days >= 1 && days <= 90) BORROW_DAYS = days;
+                    } catch (NumberFormatException e) {}
                 }
             }
             redirect(exchange, "/admin");
@@ -2086,20 +2114,21 @@ h.append("<form id='reqform' method='POST'></form>");
         h.append(".topbar .btn-nav{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;padding:8px 22px;text-decoration:none;font-size:.88em;font-weight:600;border-radius:10px;transition:all .3s cubic-bezier(.25,.46,.45,.94);display:inline-block}");
         h.append(".topbar .btn-nav:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(231,76,60,.35);color:#fff}");
         h.append(".empty{text-align:center;padding:30px;color:rgba(255,255,255,.25);font-size:.92em}");
+        h.append(".btn-wa{background:#25D366!important;color:#fff!important;box-shadow:0 4px 15px rgba(37,211,102,.15)!important}");
+        h.append(".btn-wa:hover{box-shadow:0 8px 25px rgba(37,211,102,.3)!important}");
         h.append("@media(max-width:600px){body{padding:12px}.pending{flex-direction:column;animation-delay:0s!important}.pending .btns{width:100%}}");
         h.append("</style></head><body><div class='container'>");
 
-        h.append("<div class='topbar'><div class='brand'>&#128274; <span>Librarian</span> Panel</div><div><a href='/logout' class='btn-nav'>Logout</a></div></div>");
+        h.append("<div class='topbar'><div class='brand'>&#128274; <span>Librarian</span> Panel</div><div style='display:flex;gap:6px;align-items:center'><a href='https://wa.me/255656424007?text=Hi%20Librarian%2C%20I%20need%20help' target='_blank' class='btn-nav btn-wa' style='text-decoration:none;font-size:12px;padding:6px 14px'>&#128242; WhatsApp</a><a href='/logout' class='btn-nav'>Logout</a></div></div>");
         h.append("<h1>Librarian Panel</h1><p class='sub'>Manage book requests &amp; users</p>");
 
         // Stats row
         long totalReq = requests.stream().filter(r -> "pending".equals(r.getStatus())).count();
-        long totalRemaining = library.size() - borrows.size();
         h.append("<div class='stats'>");
         h.append("<div class='stat avail'><span class='n'>").append(library.size()).append("</span><span class='l'>Available</span></div>");
         h.append("<div class='stat req'><span class='n'>").append(totalReq).append("</span><span class='l'>Requests</span></div>");
         h.append("<div class='stat bor'><span class='n'>").append(borrows.size()).append("</span><span class='l'>Borrowed</span></div>");
-        h.append("<div class='stat tot'><span class='n'>").append(totalRemaining).append("</span><span class='l'>Remaining</span></div>");
+        h.append("<div class='stat tot'><span class='n'>").append(users.size()).append("</span><span class='l'>Users</span></div>");
         h.append("</div>");
 
         // Pending requests grouped by user
@@ -2161,6 +2190,15 @@ h.append("<form id='reqform' method='POST'></form>");
             }
             h.append("</table>");
         } else h.append("<p class='empty'>No borrowed books.</p>");
+        h.append("</div>");
+
+        // Settings
+        h.append("<div class='card'><h2>&#128295; Settings</h2>");
+        h.append("<form method='POST' class='form-row' style='display:flex;gap:10px;align-items:end;flex-wrap:wrap'>");
+        h.append("<input type='hidden' name='action' value='updatesettings'>");
+        h.append("<div class='form-group'><label style='font-size:.85em;color:#aaa;display:block;margin-bottom:4px'>Borrow Duration (days)</label>");
+        h.append("<input type='number' name='borrowDays' value='").append(Main.BORROW_DAYS).append("' min='1' max='90' style='padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;font-size:.9em'>");
+        h.append("</div><button type='submit' class='btn btn-ap'>Save Settings</button></form>");
         h.append("</div>");
 
         // All books grouped by class
